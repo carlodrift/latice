@@ -10,6 +10,9 @@ import java.util.List;
 
 public class Game {
 
+    private final Player player1 = new Player();
+    private final Player player2 = new Player();
+
     private List<Tile> createTiles() {
         List<Tile> tiles = new ArrayList<>();
         Color.getList().forEach(color -> {
@@ -20,5 +23,13 @@ public class Game {
             });
         });
         return tiles;
+    }
+
+    public Player getPlayer1() {
+        return this.player1;
+    }
+
+    public Player getPlayer2() {
+        return this.player2;
     }
 }
