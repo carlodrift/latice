@@ -32,4 +32,11 @@ public class Game {
     public Player getPlayer2() {
         return this.player2;
     }
+
+    public void divideTiles() {
+        List<Tile> tiles = this.createTiles();
+        Collections.shuffle(tiles);
+        this.player1.setPool(new ArrayList<>(tiles.subList(0, tiles.size() / 2)));
+        this.player2.setPool(new ArrayList<>(tiles.subList(tiles.size() / 2, tiles.size())));
+    }
 }
