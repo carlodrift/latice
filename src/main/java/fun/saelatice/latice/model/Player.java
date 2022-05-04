@@ -26,4 +26,20 @@ public class Player {
     public void setPool(List<Tile> pool) {
         this.pool = pool;
     }
+
+    public void changeRack() {
+        if (this.pool.size() >= this.rack.size()) {
+            List<Tile> oldTiles = new ArrayList<>(this.rack);
+            this.rack.clear();
+            this.fillRack();
+            this.pool.addAll(oldTiles);
+            Collections.shuffle(this.pool);
+        }
+    }
+
+    private void fillRack() {
+        while (this.rack.size() < 5 && !this.pool.isEmpty()) {
+            this.rack.add(this.pool.remove(0));
+        }
+    }
 }
