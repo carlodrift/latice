@@ -4,7 +4,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public enum Color {
+public enum TileColor {
     RED,
     GREEN,
     PINK,
@@ -12,7 +12,7 @@ public enum Color {
     YELLOW,
     ORANGE;
 
-    public static Set<Color> getList() {
-        return Stream.of(Color.values()).collect(Collectors.toSet());
+    public static Set<TileColor> getList() {
+        return Stream.of(TileColor.values()).collect(Collectors.toSet());
     }
 }

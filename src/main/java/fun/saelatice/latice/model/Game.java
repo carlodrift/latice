@@ -1,7 +1,7 @@
 package fun.saelatice.latice.model;
 
-import fun.saelatice.latice.model.tile.Color;
-import fun.saelatice.latice.model.tile.Shape;
+import fun.saelatice.latice.model.tile.TileColor;
+import fun.saelatice.latice.model.tile.TileShape;
 import fun.saelatice.latice.model.tile.Tile;
 
 import java.util.ArrayList;
@@ -12,11 +12,12 @@ public class Game {
 
     private final Player player1 = new Player();
     private final Player player2 = new Player();
+    private final Board board = new Board();
 
     private List<Tile> createTiles() {
         List<Tile> tiles = new ArrayList<>();
-        Color.getList().forEach(color -> {
-            Shape.getList().forEach(shape -> {
+        TileColor.getList().forEach(color -> {
+            TileShape.getList().forEach(shape -> {
                 for (int i = 0; i < 2; i++) {
                     tiles.add(new Tile(color, shape));
                 }

@@ -4,7 +4,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public enum Shape {
+public enum TileShape {
     MARIO,
     PEACH,
     BOWSER,
@@ -12,7 +12,7 @@ public enum Shape {
     LUIGI,
     YOSHI;
 
-    public static Set<Shape> getList() {
-        return Stream.of(Shape.values()).collect(Collectors.toSet());
+    public static Set<TileShape> getList() {
+        return Stream.of(TileShape.values()).collect(Collectors.toSet());
     }
 }
