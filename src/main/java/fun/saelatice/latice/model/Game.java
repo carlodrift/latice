@@ -14,6 +14,7 @@ public class Game {
     private final Player player1 = new Player();
     private final Player player2 = new Player();
     private final Board board = new Board();
+    private final int cycles = 0;
     private final Random random = new Random();
     private Player currentPlayer;
 
