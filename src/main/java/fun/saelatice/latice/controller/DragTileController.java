@@ -11,8 +11,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.GridPane;
 
-public record RackController(ImageView view, Image image, GridPane rack, Tile tile,
-                             DataFormat data) implements EventHandler<MouseEvent> {
+public record DragTileController(ImageView view, Image image, GridPane rack, Tile tile,
+                                 DataFormat data) implements EventHandler<MouseEvent> {
 
     @Override
     public void handle(MouseEvent event) {

@@ -17,8 +17,11 @@ import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.GridPane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 
 import java.io.InputStream;
+import java.net.URL;
 
 public class BoardController {
 
@@ -52,20 +55,18 @@ public class BoardController {
 
     private void fillRack(Player player) {
         this.idRack.getChildren().clear();
+        Tile tile;
         for (int j = 0; j < player.getRack().size(); j++) {
-            InputStream input = this.getClass().getResourceAsStream(this.getTileImagePath(player.getRack().get(j)));
-            InputStream input1 = this.getClass().getResourceAsStream(this.getTileImagePath(player.getRack().get(j)));
+            tile = player.getRack().get(j);
+            InputStream input = this.getClass().getResourceAsStream(this.getTileImagePath(tile));
+            InputStream input1 = this.getClass().getResourceAsStream(this.getTileImagePath(tile));
             if (input == null || input1 == null) {
                 return;
             }
             Image image = new Image(input1, 45, 45, true, true);
             ImageView imageView = this.getBoardSizedImageView(input);
-            imageView.addEventFilter(MouseEvent.DRAG_DETECTED, new RackController(imageView, image, this.idRack, player.getRack().get(j), BoardController.DATA_FORMAT));
-            imageView.setOnDragDone(event -> {
-                if (event.getTransferMode() == null) {
-                    this.idRack.getChildren().add(imageView);
-                }
-            });
+            imageView.addEventFilter(MouseEvent.DRAG_DETECTED, new DragTileController(imageView, image, this.idRack, tile, BoardController.DATA_FORMAT));
+            imageView.setOnDragDone(new DragTileDoneController(this.idRack, imageView));
             this.idRack.add(imageView, j, 0);
         }
     }
@@ -85,20 +86,38 @@ public class BoardController {
             ImageView imageView = this.getBoardSizedImageView(input);
             imageView.setOnDragOver(event -> {
                 if (event.getDragboard().hasContent(BoardController.DATA_FORMAT)) {
-                    ColorAdjust colorAdjust = new ColorAdjust();
-                    colorAdjust.setHue(0.78);
-                    imageView.setEffect(colorAdjust);
                     event.acceptTransferModes(TransferMode.MOVE);
+                    if (square.getTile() == null) {
+                        ColorAdjust colorAdjust = new ColorAdjust();
+                        colorAdjust.setHue(0.78);
+                        imageView.setEffect(colorAdjust);
+                    }
                 }
             });
             imageView.setOnDragExited(event -> {
                 imageView.setEffect(null);
             });
             imageView.setOnDragDropped(event -> {
-                event.setDropCompleted(true);
                 Dragboard db = event.getDragboard();
-                board.getSquares().get(location).setTile((Tile) db.getContent(BoardController.DATA_FORMAT));
-                this.fillBoard(board);
+                Tile tile = (Tile) db.getContent(BoardController.DATA_FORMAT);
+                if (square.getTile() == null) {
+                    event.setDropCompleted(true);
+                    URL sound = this.getClass().getResource(tile.shape().toString().toLowerCase() + "-played.wav");
+                    if (sound != null) {
+                        Media media = new Media(sound.toString());
+                        MediaPlayer mediaPlayer = new MediaPlayer(media);
+                        mediaPlayer.play();
+                    }
+                    board.getSquares().get(location).setTile(tile);
+                    this.fillBoard(board);
+                } else {
+                    URL sound = this.getClass().getResource(tile.shape().toString().toLowerCase() + "-failed.wav");
+                    if (sound != null) {
+                        Media media = new Media(sound.toString());
+                        MediaPlayer mediaPlayer = new MediaPlayer(media);
+                        mediaPlayer.play();
+                    }
+                }
             });
             this.idBoard.add(imageView, location.x(), location.y());
         });
