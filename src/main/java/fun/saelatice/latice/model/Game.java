@@ -7,12 +7,15 @@ import fun.saelatice.latice.model.tile.TileShape;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 public class Game {
 
     private final Player player1 = new Player();
     private final Player player2 = new Player();
     private final Board board = new Board();
+    private final Random random = new Random();
+    private Player currentPlayer;
 
     private List<Tile> createTiles() {
         List<Tile> tiles = new ArrayList<>();
@@ -41,11 +44,16 @@ public class Game {
         this.player2.setPool(new ArrayList<>(tiles.subList(tiles.size() / 2, tiles.size())));
     }
 
+    public Player getCurrentPlayer() {
+        return this.currentPlayer;
+    }
+
     public void start() {
         this.board.init();
         this.divideTiles();
         this.player1.changeRack();
         this.player2.changeRack();
+        this.currentPlayer = this.random.nextBoolean() ? this.player1 : this.player2;
     }
 
     public Board getBoard() {

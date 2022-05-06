@@ -44,6 +44,18 @@ public class BoardController {
         imageView.setBlendMode(BlendMode.MULTIPLY);
         return imageView;
     }
+
+    private void fillRack(Player player) {
+        this.idRack.getChildren().clear();
+        for (int j = 0; j < player.getRack().size(); j++) {
+            InputStream input = this.getClass().getResourceAsStream(this.getTileImagePath(player.getRack().get(j)));
+            if (input == null) {
+                return;
+            }
+            this.idRack.add(this.getBoardSizedImageView(input), j, 0);
+        }
+    }
+
     private void fillBoard(Board board) {
         this.idBoard.getChildren().retainAll(this.idBoard.getChildren().get(0));
         board.getSquares().forEach((location, square) -> {
@@ -60,6 +72,16 @@ public class BoardController {
         });
     }
 
+    private void updateCurrentPlayer(Game game) {
+        if (game.getCurrentPlayer() == game.getPlayer1()) {
+            this.idCurrentPlayer.setText("Joueur 1");
+        }
+        if (game.getCurrentPlayer() == game.getPlayer2()) {
+            this.idCurrentPlayer.setText("Joueur 2");
+        }
+        this.idCurrentPlayer.setVisible(true);
+    }
+
     @FXML
     public void initialize() {
         Board board = new Board();
@@ -71,6 +93,8 @@ public class BoardController {
     public void play(MouseEvent mouseEvent) {
         Game game = new Game();
         game.start();
+        this.updateCurrentPlayer(game);
         ((Button) mouseEvent.getSource()).setDisable(true);
+        this.fillRack(game.getCurrentPlayer());
     }
 }
