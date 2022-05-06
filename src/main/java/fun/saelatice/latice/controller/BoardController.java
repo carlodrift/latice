@@ -7,6 +7,7 @@ import fun.saelatice.latice.model.square.Square;
 import fun.saelatice.latice.model.tile.Tile;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.effect.BlendMode;
 import javafx.scene.effect.ColorAdjust;
@@ -34,6 +35,8 @@ public class BoardController {
     public Label idCurrentPlayer;
     @FXML
     private GridPane idBoard;
+    @FXML
+    private CheckBox idSoundCb;
 
     private String getTileImagePath(Tile tile) {
         return tile.color().toString().toLowerCase() + "-" + tile.shape().toString().toLowerCase() + ".png";
@@ -102,25 +105,26 @@ public class BoardController {
                 Tile tile = (Tile) db.getContent(BoardController.DATA_FORMAT);
                 if (square.getTile() == null) {
                     event.setDropCompleted(true);
-                    URL sound = this.getClass().getResource(tile.shape().toString().toLowerCase() + "-played.wav");
-                    if (sound != null) {
-                        Media media = new Media(sound.toString());
-                        MediaPlayer mediaPlayer = new MediaPlayer(media);
-                        mediaPlayer.play();
-                    }
                     board.getSquares().get(location).setTile(tile);
                     this.fillBoard(board);
+                    this.playSound(tile.shape().toString().toLowerCase() + "-played.wav");
                 } else {
-                    URL sound = this.getClass().getResource(tile.shape().toString().toLowerCase() + "-failed.wav");
-                    if (sound != null) {
-                        Media media = new Media(sound.toString());
-                        MediaPlayer mediaPlayer = new MediaPlayer(media);
-                        mediaPlayer.play();
-                    }
+                    this.playSound(tile.shape().toString().toLowerCase() + "-failed.wav");
                 }
             });
             this.idBoard.add(imageView, location.x(), location.y());
         });
+    }
+
+    private void playSound(String sound) {
+        if (this.idSoundCb.isSelected()) {
+            URL soundURL = this.getClass().getResource(sound);
+            if (soundURL != null) {
+                Media media = new Media(soundURL.toString());
+                MediaPlayer mediaPlayer = new MediaPlayer(media);
+                mediaPlayer.play();
+            }
+        }
     }
 
     private void updateCurrentPlayer(Game game) {
