@@ -18,6 +18,7 @@ public class Latice extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader(this.getClass().getResource("board-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         stage.setScene(scene);
+        stage.setResizable(false);
         stage.show();
     }
 }

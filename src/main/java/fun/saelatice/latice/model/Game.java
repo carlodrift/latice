@@ -1,8 +1,8 @@
 package fun.saelatice.latice.model;
 
+import fun.saelatice.latice.model.tile.Tile;
 import fun.saelatice.latice.model.tile.TileColor;
 import fun.saelatice.latice.model.tile.TileShape;
-import fun.saelatice.latice.model.tile.Tile;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -39,5 +39,16 @@ public class Game {
         Collections.shuffle(tiles);
         this.player1.setPool(new ArrayList<>(tiles.subList(0, tiles.size() / 2)));
         this.player2.setPool(new ArrayList<>(tiles.subList(tiles.size() / 2, tiles.size())));
+    }
+
+    public void start() {
+        this.board.init();
+        this.divideTiles();
+        this.player1.changeRack();
+        this.player2.changeRack();
+    }
+
+    public Board getBoard() {
+        return this.board;
     }
 }
