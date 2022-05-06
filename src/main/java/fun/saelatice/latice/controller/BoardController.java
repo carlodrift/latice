@@ -9,15 +9,20 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.effect.BlendMode;
+import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.DataFormat;
+import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.input.TransferMode;
 import javafx.scene.layout.GridPane;
 
 import java.io.InputStream;
 
 public class BoardController {
 
+    private static final DataFormat DATA_FORMAT = new DataFormat("Tile");
     @FXML
     public Button idPlayBtn;
     @FXML
@@ -49,10 +54,19 @@ public class BoardController {
         this.idRack.getChildren().clear();
         for (int j = 0; j < player.getRack().size(); j++) {
             InputStream input = this.getClass().getResourceAsStream(this.getTileImagePath(player.getRack().get(j)));
-            if (input == null) {
+            InputStream input1 = this.getClass().getResourceAsStream(this.getTileImagePath(player.getRack().get(j)));
+            if (input == null || input1 == null) {
                 return;
             }
-            this.idRack.add(this.getBoardSizedImageView(input), j, 0);
+            Image image = new Image(input1, 45, 45, true, true);
+            ImageView imageView = this.getBoardSizedImageView(input);
+            imageView.addEventFilter(MouseEvent.DRAG_DETECTED, new RackController(imageView, image, this.idRack, player.getRack().get(j), BoardController.DATA_FORMAT));
+            imageView.setOnDragDone(event -> {
+                if (event.getTransferMode() == null) {
+                    this.idRack.getChildren().add(imageView);
+                }
+            });
+            this.idRack.add(imageView, j, 0);
         }
     }
 
@@ -68,7 +82,25 @@ public class BoardController {
             if (input == null) {
                 return;
             }
-            this.idBoard.add(this.getBoardSizedImageView(input), location.x(), location.y());
+            ImageView imageView = this.getBoardSizedImageView(input);
+            imageView.setOnDragOver(event -> {
+                if (event.getDragboard().hasContent(BoardController.DATA_FORMAT)) {
+                    ColorAdjust colorAdjust = new ColorAdjust();
+                    colorAdjust.setHue(0.78);
+                    imageView.setEffect(colorAdjust);
+                    event.acceptTransferModes(TransferMode.MOVE);
+                }
+            });
+            imageView.setOnDragExited(event -> {
+                imageView.setEffect(null);
+            });
+            imageView.setOnDragDropped(event -> {
+                event.setDropCompleted(true);
+                Dragboard db = event.getDragboard();
+                board.getSquares().get(location).setTile((Tile) db.getContent(BoardController.DATA_FORMAT));
+                this.fillBoard(board);
+            });
+            this.idBoard.add(imageView, location.x(), location.y());
         });
     }
 
