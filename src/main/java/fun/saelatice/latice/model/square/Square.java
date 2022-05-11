@@ -4,7 +4,7 @@ import fun.saelatice.latice.model.tile.Tile;
 
 public class Square {
 
-    private SquareType type;
+    private final SquareType type;
     private Tile tile;
 
     public Square(SquareType type) {
@@ -12,20 +12,8 @@ public class Square {
         this.tile = null;
     }
 
-    @Override
-    public String toString() {
-        return "Square{" +
-                "type=" + this.type +
-                ", tile=" + this.tile +
-                '}';
-    }
-
     public SquareType getType() {
         return this.type;
-    }
-
-    public void setType(SquareType type) {
-        this.type = type;
     }
 
     public Tile getTile() {

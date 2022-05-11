@@ -93,7 +93,7 @@ public class Board {
         return this.squares;
     }
 
-    //TODO write tests
+    //TODO tester méthode
     public boolean canPlayHere(Position position, Tile tile) {
         Square square = this.squares.get(position);
         if (square.getTile() != null) {
@@ -110,7 +110,7 @@ public class Board {
         return tileMatches != 0 || square.getType() == SquareType.MOON;
     }
 
-    //TODO write tests
+    //TODO tester méthode
     public void playTile(Position position, Tile tile, Player player) {
         this.setTile(position, tile);
         player.addPoint(this.getPointsAt(position));
@@ -118,7 +118,7 @@ public class Board {
         player.fillRack();
     }
 
-    //TODO write tests
+    //TODO tester méthode
     public void setTile(Position position, Tile tile) {
         this.squares.get(position).setTile(tile);
     }
