@@ -11,6 +11,8 @@ import java.util.Random;
 
 public class Game {
 
+    public static final String PLAYER_2 = "Joueur 2";
+    public static final String PLAYER_1 = "Joueur 1";
     private final Player player1 = new Player();
     private final Player player2 = new Player();
     private final Board board = new Board();
@@ -47,6 +49,18 @@ public class Game {
 
     public Player getCurrentPlayer() {
         return this.currentPlayer;
+    }
+
+    public void nextPlayer() {
+        this.currentPlayer = this.currentPlayer == this.player1 ? this.player2 : this.player1;
+    }
+
+    public String getPlayer(boolean next) {
+        if (this.currentPlayer == this.player1) {
+            return next ? Game.PLAYER_2 : Game.PLAYER_1;
+        } else {
+            return next ? Game.PLAYER_1 : Game.PLAYER_2;
+        }
     }
 
     public void start() {

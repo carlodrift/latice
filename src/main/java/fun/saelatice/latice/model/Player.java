@@ -10,6 +10,19 @@ public class Player {
 
     private List<Tile> pool = new ArrayList<>();
     private List<Tile> rack = new ArrayList<>();
+    private int points = 0;
+
+    public void addPoint(int point) {
+        this.points += point;
+    }
+
+    public void removePoint(int point) {
+        this.points -= point;
+    }
+
+    public int getPoints() {
+        return this.points;
+    }
 
     public List<Tile> getRack() {
         return this.rack;
@@ -37,7 +50,7 @@ public class Player {
         }
     }
 
-    private void fillRack() {
+    public void fillRack() {
         while (this.rack.size() < 5 && !this.pool.isEmpty()) {
             this.rack.add(this.pool.remove(0));
         }

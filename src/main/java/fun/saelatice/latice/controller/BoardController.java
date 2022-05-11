@@ -36,6 +36,8 @@ public class BoardController {
     @FXML
     private GridPane idBoard;
     @FXML
+    private Label idPoints;
+    @FXML
     private CheckBox idSoundCb;
 
     private String getTileImagePath(Tile tile) {
@@ -74,7 +76,7 @@ public class BoardController {
         }
     }
 
-    private void fillBoard(Board board) {
+    private void fillBoard(Board board, Game game) {
         this.idBoard.getChildren().retainAll(this.idBoard.getChildren().get(0));
         board.getSquares().forEach((location, square) -> {
             InputStream input;
@@ -105,8 +107,12 @@ public class BoardController {
                 Tile tile = (Tile) db.getContent(BoardController.DATA_FORMAT);
                 if (square.getTile() == null) {
                     event.setDropCompleted(true);
-                    board.getSquares().get(location).setTile(tile);
-                    this.fillBoard(board);
+                    board.setTile(location, tile);
+                    Player player = game.getCurrentPlayer();
+                    player.addPoint(board.getPointsAt(location));
+                    player.getRack().remove(tile);
+                    this.fillBoard(board, game);
+                    this.updateCurrentPlayer(game);
                     this.playSound(tile.shape().toString().toLowerCase() + "-played.wav");
                 } else {
                     this.playSound(tile.shape().toString().toLowerCase() + "-failed.wav");
@@ -127,13 +133,10 @@ public class BoardController {
         }
     }
 
-    private void updateCurrentPlayer(Game game) {
-        if (game.getCurrentPlayer() == game.getPlayer1()) {
-            this.idCurrentPlayer.setText("Joueur 1");
-        }
-        if (game.getCurrentPlayer() == game.getPlayer2()) {
-            this.idCurrentPlayer.setText("Joueur 2");
-        }
+    public void updateCurrentPlayer(Game game) {
+        this.idCurrentPlayer.setText(game.getPlayer(false));
+        this.idPoints.setText("Point : " + game.getCurrentPlayer().getPoints());
+        this.idPoints.setVisible(true);
         this.idCurrentPlayer.setVisible(true);
     }
 
@@ -141,7 +144,7 @@ public class BoardController {
     public void initialize() {
         Board board = new Board();
         board.init();
-        this.fillBoard(board);
+        this.fillBoard(board, null);
     }
 
     @FXML
@@ -151,5 +154,7 @@ public class BoardController {
         this.updateCurrentPlayer(game);
         ((Button) mouseEvent.getSource()).setDisable(true);
         this.fillRack(game.getCurrentPlayer());
+        this.fillBoard(game.getBoard(), game);
+        this.updateCurrentPlayer(game);
     }
 }
