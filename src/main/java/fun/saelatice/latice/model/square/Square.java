@@ -7,11 +7,6 @@ public class Square {
     private SquareType type;
     private Tile tile;
 
-    public Square(SquareType type, Tile tile) {
-        this.type = type;
-        this.tile = tile;
-    }
-
     public Square(SquareType type) {
         this.type = type;
         this.tile = null;

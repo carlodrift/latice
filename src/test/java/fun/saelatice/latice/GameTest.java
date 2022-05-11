@@ -19,13 +19,12 @@ class GameTest {
 
     @Test
     void Should_Divide_Tiles_Evenly_When_Distributed() {
-        int size = TileColor.getList().size() * TileShape.getList().size();
+        int size = TileColor.values().length * TileShape.values().length;
         this.game.divideTiles();
         Assertions.assertTrue(this.game.getPlayer1().getPool().size() == size
                 && this.game.getPlayer2().getPool().size() == size
         );
     }
-
 
     @Test
     void Should_Pass_To_Next_Player_When_Method_Called() {

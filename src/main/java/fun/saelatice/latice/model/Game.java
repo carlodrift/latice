@@ -22,13 +22,13 @@ public class Game {
 
     private List<Tile> createTiles() {
         List<Tile> tiles = new ArrayList<>();
-        TileColor.getList().forEach(color -> {
-            TileShape.getList().forEach(shape -> {
                 for (int i = 0; i < 2; i++) {
+        for (TileColor color : TileColor.values()) {
+            for (TileShape shape : TileShape.values()) {
                     tiles.add(new Tile(color, shape));
                 }
-            });
-        });
+            }
+        }
         return tiles;
     }
 
