@@ -20,11 +20,11 @@ public class Game {
     private final Random random = new Random();
     private Player currentPlayer;
 
-    private List<Tile> createTiles() {
+    public static List<Tile> createTiles(int copy) {
         List<Tile> tiles = new ArrayList<>();
-                for (int i = 0; i < 2; i++) {
         for (TileColor color : TileColor.values()) {
             for (TileShape shape : TileShape.values()) {
+                for (int i = 0; i < copy; i++) {
                     tiles.add(new Tile(color, shape));
                 }
             }
@@ -41,7 +41,7 @@ public class Game {
     }
 
     public void divideTiles() {
-        List<Tile> tiles = this.createTiles();
+        List<Tile> tiles = Game.createTiles(2);
         Collections.shuffle(tiles);
         this.player1.setPool(new ArrayList<>(tiles.subList(0, tiles.size() / 2)));
         this.player2.setPool(new ArrayList<>(tiles.subList(tiles.size() / 2, tiles.size())));

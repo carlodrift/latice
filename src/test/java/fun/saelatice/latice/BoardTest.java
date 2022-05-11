@@ -36,7 +36,7 @@ class BoardTest {
     }
 
     @Test
-    void Should_init_Board_With_1_Moon() {
+    void Should_Init_Board_With_1_Moon() {
         int moons = 0;
         for (Square square : this.board.getSquares().values()) {
             if (square.getType() == SquareType.MOON) {
@@ -47,7 +47,7 @@ class BoardTest {
     }
 
     @Test
-    void Should_init_Board_With_64_Normal() {
+    void Should_Init_Board_With_64_Normal() {
         int normal = 0;
         for (Square square : this.board.getSquares().values()) {
             if (square.getType() == SquareType.NORMAL) {
@@ -56,7 +56,6 @@ class BoardTest {
         }
         Assertions.assertEquals(64, normal);
     }
-
 
     @Test
     void Should_Be_Latice_Points_When_4_Tiles_Around() {

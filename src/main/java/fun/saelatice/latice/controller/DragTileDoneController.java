@@ -1,6 +1,5 @@
 package fun.saelatice.latice.controller;
 
-import fun.saelatice.latice.model.tile.Tile;
 import javafx.event.EventHandler;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.DragEvent;

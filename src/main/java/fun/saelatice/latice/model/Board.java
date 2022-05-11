@@ -93,6 +93,32 @@ public class Board {
         return this.squares;
     }
 
+    //TODO write tests
+    public boolean canPlayHere(Position position, Tile tile) {
+        Square square = this.squares.get(position);
+        if (square.getTile() != null) {
+            return false;
+        }
+        int tileMatches = 0;
+        for (Tile tileAround : this.getAroundTiles(position.x(), position.y())) {
+            if (!tileAround.isCompatible(tile)) {
+                return false;
+            } else {
+                tileMatches += 1;
+            }
+        }
+        return tileMatches != 0 || square.getType() == SquareType.MOON;
+    }
+
+    //TODO write tests
+    public void playTile(Position position, Tile tile, Player player) {
+        this.setTile(position, tile);
+        player.addPoint(this.getPointsAt(position));
+        player.getRack().remove(tile);
+        player.fillRack();
+    }
+
+    //TODO write tests
     public void setTile(Position position, Tile tile) {
         this.squares.get(position).setTile(tile);
     }

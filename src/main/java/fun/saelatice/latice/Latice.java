@@ -3,6 +3,7 @@ package fun.saelatice.latice;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.input.TransferMode;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -14,11 +15,12 @@ public class Latice extends Application {
     }
 
     @Override
-    public void start(Stage stage) throws IOException {
+    public void start(Stage primaryStage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(this.getClass().getResource("board-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
-        stage.setScene(scene);
-        stage.setResizable(false);
-        stage.show();
+        primaryStage.setScene(scene);
+        primaryStage.setResizable(false);
+        scene.setOnDragOver(event -> event.acceptTransferModes(TransferMode.MOVE));
+        primaryStage.show();
     }
 }

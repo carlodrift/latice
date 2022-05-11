@@ -5,18 +5,16 @@ import fun.saelatice.latice.model.Game;
 import fun.saelatice.latice.model.Player;
 import fun.saelatice.latice.model.square.Square;
 import fun.saelatice.latice.model.tile.Tile;
+import fun.saelatice.latice.model.tile.TileShape;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.effect.BlendMode;
-import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.DataFormat;
-import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.input.TransferMode;
 import javafx.scene.layout.GridPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -30,6 +28,8 @@ public class BoardController {
     @FXML
     public Button idPlayBtn;
     @FXML
+    public Button idPassBtn;
+    @FXML
     public GridPane idRack;
     @FXML
     public Label idCurrentPlayer;
@@ -39,6 +39,8 @@ public class BoardController {
     private Label idPoints;
     @FXML
     private CheckBox idSoundCb;
+    @FXML
+    private Label idPoolCount;
 
     private String getTileImagePath(Tile tile) {
         return tile.color().toString().toLowerCase() + "-" + tile.shape().toString().toLowerCase() + ".png";
@@ -58,7 +60,7 @@ public class BoardController {
         return imageView;
     }
 
-    private void fillRack(Player player) {
+    public void fillRack(Player player) {
         this.idRack.getChildren().clear();
         Tile tile;
         for (int j = 0; j < player.getRack().size(); j++) {
@@ -68,7 +70,7 @@ public class BoardController {
             if (input == null || input1 == null) {
                 return;
             }
-            Image image = new Image(input1, 45, 45, true, true);
+            Image image = new Image(input1, 45, 0, true, true);
             ImageView imageView = this.getBoardSizedImageView(input);
             imageView.addEventFilter(MouseEvent.DRAG_DETECTED, new DragTileController(imageView, image, this.idRack, tile, BoardController.DATA_FORMAT));
             imageView.setOnDragDone(new DragTileDoneController(this.idRack, imageView));
@@ -76,9 +78,9 @@ public class BoardController {
         }
     }
 
-    private void fillBoard(Board board, Game game) {
+    public void fillBoard(Board board, Game game) {
         this.idBoard.getChildren().retainAll(this.idBoard.getChildren().get(0));
-        board.getSquares().forEach((location, square) -> {
+        board.getSquares().forEach((position, square) -> {
             InputStream input;
             if (square.getTile() != null) {
                 input = this.getClass().getResourceAsStream(this.getTileImagePath(square.getTile()));
@@ -89,46 +91,22 @@ public class BoardController {
                 return;
             }
             ImageView imageView = this.getBoardSizedImageView(input);
-            imageView.setOnDragOver(event -> {
-                if (event.getDragboard().hasContent(BoardController.DATA_FORMAT)) {
-                    event.acceptTransferModes(TransferMode.MOVE);
-                    if (square.getTile() == null) {
-                        ColorAdjust colorAdjust = new ColorAdjust();
-                        colorAdjust.setHue(0.78);
-                        imageView.setEffect(colorAdjust);
-                    }
-                }
-            });
-            imageView.setOnDragExited(event -> {
-                imageView.setEffect(null);
-            });
-            imageView.setOnDragDropped(event -> {
-                Dragboard db = event.getDragboard();
-                Tile tile = (Tile) db.getContent(BoardController.DATA_FORMAT);
-                if (square.getTile() == null) {
-                    event.setDropCompleted(true);
-                    board.setTile(location, tile);
-                    Player player = game.getCurrentPlayer();
-                    player.addPoint(board.getPointsAt(location));
-                    player.getRack().remove(tile);
-                    this.fillBoard(board, game);
-                    this.updateCurrentPlayer(game);
-                    this.playSound(tile.shape().toString().toLowerCase() + "-played.wav");
-                } else {
-                    this.playSound(tile.shape().toString().toLowerCase() + "-failed.wav");
-                }
-            });
-            this.idBoard.add(imageView, location.x(), location.y());
+            imageView.setOnDragOver(new DragTileOverBoardController(BoardController.DATA_FORMAT, square, board, position, imageView, game));
+            imageView.setOnDragExited(event -> imageView.setEffect(null));
+            imageView.setOnDragDropped(new PlayTileController(BoardController.DATA_FORMAT, board, position, game, this));
+            this.idBoard.add(imageView, position.x(), position.y());
         });
     }
 
-    private void playSound(String sound) {
+    public void loadSound(String sound, boolean play) {
         if (this.idSoundCb.isSelected()) {
             URL soundURL = this.getClass().getResource(sound);
             if (soundURL != null) {
                 Media media = new Media(soundURL.toString());
                 MediaPlayer mediaPlayer = new MediaPlayer(media);
-                mediaPlayer.play();
+                if (play) {
+                    mediaPlayer.setAutoPlay(true);
+                }
             }
         }
     }
@@ -136,7 +114,9 @@ public class BoardController {
     public void updateCurrentPlayer(Game game) {
         this.idCurrentPlayer.setText(game.getPlayer(false));
         this.idPoints.setText("Point : " + game.getCurrentPlayer().getPoints());
+        this.idPoolCount.setText("Pioche : " + game.getCurrentPlayer().getPool().size());
         this.idPoints.setVisible(true);
+        this.idPoolCount.setVisible(true);
         this.idCurrentPlayer.setVisible(true);
     }
 
@@ -145,16 +125,24 @@ public class BoardController {
         Board board = new Board();
         board.init();
         this.fillBoard(board, null);
+        this.loadSound(TileShape.values()[0] + "-failed.wav", false);
     }
 
     @FXML
     public void play(MouseEvent mouseEvent) {
         Game game = new Game();
         game.start();
-        this.updateCurrentPlayer(game);
-        ((Button) mouseEvent.getSource()).setDisable(true);
+        ((Button) mouseEvent.getSource()).setVisible(false);
         this.fillRack(game.getCurrentPlayer());
         this.fillBoard(game.getBoard(), game);
+        PassController passController = new PassController(this, game);
+        this.idPassBtn.setOnMouseClicked(passController);
+        this.idPassBtn.setVisible(true);
+        passController.handle(null);
         this.updateCurrentPlayer(game);
+    }
+
+    public void switchRackVisibility() {
+        this.idRack.setVisible(!this.idRack.isVisible());
     }
 }

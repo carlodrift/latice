@@ -22,7 +22,12 @@ class PlayerTest {
     }
 
     @ParameterizedTest
-    @CsvSource({"4, 10", "4, 5", "0, 4", "3, 3"})
+    @CsvSource({
+            "4, 10",
+            "4, 5",
+            "0, 4",
+            "3, 3"
+    })
     void Should_Change_Tiles_When_Rack_Changed_With_Enough_Pool(int rackSize, int poolSize) {
         this.game.getPlayer1().setRack(new ArrayList<>(this.game.getPlayer1().getRack().subList(0, rackSize)));
         this.game.getPlayer1().setPool(new ArrayList<>(this.game.getPlayer1().getPool().subList(0, poolSize)));
@@ -35,7 +40,10 @@ class PlayerTest {
     }
 
     @ParameterizedTest
-    @CsvSource({"3, 0", "2, 1"})
+    @CsvSource({
+            "3, 0",
+            "2, 1"
+    })
     void Should_Not_Change_Tiles_When_Rack_Changed_With_Smaller_Pool(int rackSize, int poolSize) {
         this.game.getPlayer1().setRack(new ArrayList<>(this.game.getPlayer1().getRack().subList(0, rackSize)));
         this.game.getPlayer1().setPool(new ArrayList<>(this.game.getPlayer1().getPool().subList(0, poolSize)));
