@@ -20,18 +20,38 @@ public class Board {
     public void init() {
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
+                this.squares.put(new Position(i, j), new Square(SquareType.NORMAL));
+            }
+        }
+        this.getMoonSquaresPosition().forEach(position ->
+                this.squares.put(position, new Square(SquareType.MOON))
+        );
+        this.getStarSquaresPosition().forEach(position ->
+                this.squares.put(position, new Square(SquareType.STAR))
+        );
+    }
+
+    public Set<Position> getStarSquaresPosition() {
+        Set<Position> starSquaresPosition = new HashSet<>();
+        starSquaresPosition.add(new Position(0, 4));
+        starSquaresPosition.add(new Position(4, 0));
+        starSquaresPosition.add(new Position(4, 8));
+        starSquaresPosition.add(new Position(8, 4));
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
                 if ((i == j || i + j == 8) && i != 3 && i != 5) {
-                    this.squares.put(new Position(i, j), new Square(SquareType.STAR));
-                } else {
-                    this.squares.put(new Position(i, j), new Square(SquareType.NORMAL));
+                    starSquaresPosition.add(new Position(i, j));
                 }
             }
         }
-        this.squares.put(new Position(4, 4), new Square(SquareType.MOON));
-        this.squares.put(new Position(0, 4), new Square(SquareType.STAR));
-        this.squares.put(new Position(4, 0), new Square(SquareType.STAR));
-        this.squares.put(new Position(4, 8), new Square(SquareType.STAR));
-        this.squares.put(new Position(8, 4), new Square(SquareType.STAR));
+        starSquaresPosition.removeAll(this.getMoonSquaresPosition());
+        return starSquaresPosition;
+    }
+
+    public Set<Position> getMoonSquaresPosition() {
+        Set<Position> moonSquaresPosition = new HashSet<>();
+        moonSquaresPosition.add(new Position(4, 4));
+        return moonSquaresPosition;
     }
 
     public int getPointsAt(Position position) {
