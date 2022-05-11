@@ -19,6 +19,14 @@
     <right>
       <VBox alignment="CENTER" BorderPane.alignment="CENTER">
          <children>
+            <Label fx:id="idCycles" visible="false">
+               <font>
+                  <Font size="19.0" />
+               </font>
+               <padding>
+                  <Insets bottom="10.0" />
+               </padding>
+            </Label>
               <Button fx:id="idPlayBtn" mnemonicParsing="false" onMouseClicked="#play" prefHeight="26.0" prefWidth="94.0" text="Jouer">
                   <textFill>
                       <RadialGradient centerX="0.5" centerY="0.5" radius="0.5">

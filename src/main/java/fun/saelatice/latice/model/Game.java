@@ -16,8 +16,9 @@ public class Game {
     private final Player player1 = new Player();
     private final Player player2 = new Player();
     private final Board board = new Board();
-    private final int cycles = 0;
     private final Random random = new Random();
+    private int cycles = 0;
+    private int turns = 0;
     private Player currentPlayer;
 
     public static List<Tile> createTiles(int copy) {
@@ -32,14 +33,6 @@ public class Game {
         return tiles;
     }
 
-    public Player getPlayer1() {
-        return this.player1;
-    }
-
-    public Player getPlayer2() {
-        return this.player2;
-    }
-
     public void divideTiles() {
         List<Tile> tiles = Game.createTiles(2);
         Collections.shuffle(tiles);
@@ -47,14 +40,16 @@ public class Game {
         this.player2.setPool(new ArrayList<>(tiles.subList(tiles.size() / 2, tiles.size())));
     }
 
-    public Player getCurrentPlayer() {
-        return this.currentPlayer;
-    }
-
+    //TODO : tester passage de cycle
     public void nextPlayer() {
         this.currentPlayer = this.currentPlayer == this.player1 ? this.player2 : this.player1;
+        this.turns += 1;
+        if ((this.turns - 1) % 2 == 0 && this.turns != 1) {
+            this.cycles += 1;
+        }
     }
 
+    // TODO : tester méthode
     public String getPlayer(boolean next) {
         if (this.currentPlayer == this.player1) {
             return next ? Game.PLAYER_2 : Game.PLAYER_1;
@@ -73,5 +68,21 @@ public class Game {
 
     public Board getBoard() {
         return this.board;
+    }
+
+    public int getCycles() {
+        return this.cycles;
+    }
+
+    public Player getCurrentPlayer() {
+        return this.currentPlayer;
+    }
+
+    public Player getPlayer1() {
+        return this.player1;
+    }
+
+    public Player getPlayer2() {
+        return this.player2;
     }
 }

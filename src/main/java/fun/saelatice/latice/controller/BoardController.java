@@ -41,6 +41,8 @@ public class BoardController {
     private CheckBox idSoundCb;
     @FXML
     private Label idPoolCount;
+    @FXML
+    private Label idCycles;
 
     private String getTileImagePath(Tile tile) {
         return tile.color().toString().toLowerCase() + "-" + tile.shape().toString().toLowerCase() + ".png";
@@ -113,11 +115,17 @@ public class BoardController {
 
     public void updateCurrentPlayer(Game game) {
         this.idCurrentPlayer.setText(game.getPlayer(false));
-        this.idPoints.setText("Point : " + game.getCurrentPlayer().getPoints());
+        this.idPoints.setText("Cagnotte : " + game.getCurrentPlayer().getPoints());
         this.idPoolCount.setText("Pioche : " + game.getCurrentPlayer().getPool().size());
         this.idPoints.setVisible(true);
         this.idPoolCount.setVisible(true);
         this.idCurrentPlayer.setVisible(true);
+        this.updateCycles(game);
+    }
+
+    public void updateCycles(Game game) {
+        this.idCycles.setText("Cycle " + game.getCycles());
+        this.idCycles.setVisible(true);
     }
 
     @FXML
@@ -138,6 +146,7 @@ public class BoardController {
         PassController passController = new PassController(this, game);
         this.idPassBtn.setOnMouseClicked(passController);
         this.idPassBtn.setVisible(true);
+        this.updateCycles(game);
         passController.handle(null);
         this.updateCurrentPlayer(game);
     }
