@@ -15,7 +15,7 @@ public class Game {
 
     public static final String PLAYER_2 = "Joueur 2";
     public static final String PLAYER_1 = "Joueur 1";
-    private static final int MAX_CYCLES = 10;
+    public static final int MAX_CYCLES = 10;
     private final Player player1 = new Player();
     private final Player player2 = new Player();
     private final Board board = new Board();
@@ -70,11 +70,22 @@ public class Game {
         });
     }
 
-    public String getPlayer(boolean next) {
+    public Player getWinner() {
+        int remainingTilesPlayer1 = this.player1.getRack().size() + this.player1.getPool().size();
+        int remainingTilesPlayer2 = this.player2.getRack().size() + this.player2.getPool().size();
+        if (remainingTilesPlayer1 < remainingTilesPlayer2) {
+            return this.player1;
+        } else if (remainingTilesPlayer1 > remainingTilesPlayer2) {
+            return this.player2;
+        }
+        return null;
+    }
+
+    public Player getNextPlayer() {
         if (this.currentPlayer == this.player1) {
-            return next ? Game.PLAYER_2 : Game.PLAYER_1;
+            return this.player2;
         } else {
-            return next ? Game.PLAYER_1 : Game.PLAYER_2;
+            return this.player1;
         }
     }
 

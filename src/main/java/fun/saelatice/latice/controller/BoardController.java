@@ -115,7 +115,7 @@ public class BoardController {
     }
 
     public void updateCurrentPlayer(Game game) {
-        this.idCurrentPlayer.setText(game.getPlayer(false));
+        this.idCurrentPlayer.setText(game.getCurrentPlayer().getPlayerName(game));
         this.idPoints.setText("Cagnotte : " + game.getCurrentPlayer().getPoints());
         this.idPoolCount.setText("Pioche : " + game.getCurrentPlayer().getPool().size());
         this.idPoints.setVisible(true);
@@ -125,7 +125,7 @@ public class BoardController {
     }
 
     public void updateCycles(Game game) {
-        this.idCycles.setText("Cycle " + game.getCycles());
+        this.idCycles.setText("Cycle " + (game.getCycles() + 1));
         this.idCycles.setVisible(true);
     }
 

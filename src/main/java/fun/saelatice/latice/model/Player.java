@@ -40,6 +40,14 @@ public class Player {
         return this.points;
     }
 
+    public String getPlayerName(Game game) {
+        if (game.getPlayer1() == this) {
+            return Game.PLAYER_1;
+        } else {
+            return Game.PLAYER_2;
+        }
+    }
+
     public List<Tile> getRack() {
         return this.rack;
     }
