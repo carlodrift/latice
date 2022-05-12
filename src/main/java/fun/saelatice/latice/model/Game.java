@@ -6,13 +6,16 @@ import fun.saelatice.latice.model.tile.TileShape;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 
 public class Game {
 
     public static final String PLAYER_2 = "Joueur 2";
     public static final String PLAYER_1 = "Joueur 1";
+    private static final int MAX_CYCLES = 10;
     private final Player player1 = new Player();
     private final Player player2 = new Player();
     private final Board board = new Board();
@@ -20,6 +23,8 @@ public class Game {
     private int cycles = 0;
     private int turns = 0;
     private Player currentPlayer;
+
+    private boolean over = false;
 
     public static List<Tile> createTiles(int copy) {
         List<Tile> tiles = new ArrayList<>();
@@ -49,7 +54,22 @@ public class Game {
         }
     }
 
-    // TODO : tester méthode
+    //TODO : tester les conditions de victoire
+    public void checkOver() {
+        if ((this.turns - 1) % 2 != 0 && this.cycles + 1 == Game.MAX_CYCLES) {
+            this.over = true;
+            return;
+        }
+        Set<Player> players = new HashSet<>();
+        players.add(this.player1);
+        players.add(this.player2);
+        players.forEach(player -> {
+            if (player.getRack().size() + player.getPool().size() == 0) {
+                this.over = true;
+            }
+        });
+    }
+
     public String getPlayer(boolean next) {
         if (this.currentPlayer == this.player1) {
             return next ? Game.PLAYER_2 : Game.PLAYER_1;
@@ -84,5 +104,13 @@ public class Game {
 
     public Player getPlayer2() {
         return this.player2;
+    }
+
+    public boolean isOver() {
+        return this.over;
+    }
+
+    public void setOver(boolean over) {
+        this.over = over;
     }
 }

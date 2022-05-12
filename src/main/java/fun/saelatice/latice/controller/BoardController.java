@@ -7,6 +7,7 @@ import fun.saelatice.latice.model.square.Square;
 import fun.saelatice.latice.model.tile.Tile;
 import fun.saelatice.latice.model.tile.TileShape;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
@@ -145,13 +146,22 @@ public class BoardController {
         this.fillBoard(game.getBoard(), game);
         PassController passController = new PassController(this, game);
         this.idPassBtn.setOnMouseClicked(passController);
-        this.idPassBtn.setVisible(true);
+        this.switchPassBtnVisibility();
         this.updateCycles(game);
         passController.handle(null);
         this.updateCurrentPlayer(game);
     }
 
-    public void switchRackVisibility() {
-        this.idRack.setVisible(!this.idRack.isVisible());
+    public void switchVisibility(Node node) {
+        node.setVisible(!node.isVisible());
     }
+
+    public void switchRackVisibility() {
+        this.switchVisibility(this.idRack);
+    }
+
+    public void switchPassBtnVisibility() {
+        this.switchVisibility(this.idPassBtn);
+    }
+
 }

@@ -11,6 +11,15 @@ public record PassController(BoardController boardController, Game game) impleme
     @Override
     public void handle(MouseEvent mouseEvent) {
         this.boardController.switchRackVisibility();
+        this.game.checkOver();
+        if (this.game.isOver()) {
+            this.boardController.switchPassBtnVisibility();
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setHeaderText("Il y a un vainqueur !");
+            alert.setContentText("La partie est terminée.");
+            alert.showAndWait();
+            return;
+        }
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setHeaderText(this.game.getPlayer(true) + ", à vous !");
         alert.setContentText("Préparez-vous à jouer...");
