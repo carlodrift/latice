@@ -4,8 +4,10 @@ import fun.saelatice.latice.model.square.Square;
 import fun.saelatice.latice.model.square.SquareType;
 import fun.saelatice.latice.model.tile.Tile;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -99,12 +101,15 @@ public class Board {
         return this.squares.get(new Position(x + 1, y)).getTile();
     }
 
-    public Set<Tile> getAroundTiles(int x, int y) {
-        Set<Tile> tiles = new HashSet<>();
+    public List<Tile> getAroundTiles(int x, int y) {
+        List<Tile> tiles = new ArrayList<>();
         tiles.add(this.getTileAbove(x, y));
         tiles.add(this.getTileBelow(x, y));
         tiles.add(this.getTileLeft(x, y));
         tiles.add(this.getTileRight(x, y));
+        tiles.remove(null);
+        tiles.remove(null);
+        tiles.remove(null);
         tiles.remove(null);
         return tiles;
     }
