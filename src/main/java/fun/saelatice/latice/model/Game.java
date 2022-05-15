@@ -45,7 +45,6 @@ public class Game {
         this.player2.setPool(new ArrayList<>(tiles.subList(tiles.size() / 2, tiles.size())));
     }
 
-    //TODO : tester passage de cycle
     public void nextPlayer() {
         this.currentPlayer = this.currentPlayer == this.player1 ? this.player2 : this.player1;
         this.turns += 1;
@@ -70,6 +69,7 @@ public class Game {
         });
     }
 
+    //TODO : tester méthode
     public Player getWinner() {
         int remainingTilesPlayer1 = this.player1.getRack().size() + this.player1.getPool().size();
         int remainingTilesPlayer2 = this.player2.getRack().size() + this.player2.getPool().size();
@@ -81,6 +81,7 @@ public class Game {
         return null;
     }
 
+    //TODO : tester méthode
     public Player getNextPlayer() {
         if (this.currentPlayer == this.player1) {
             return this.player2;
@@ -121,7 +122,7 @@ public class Game {
         return this.over;
     }
 
-    public void setOver(boolean over) {
-        this.over = over;
+    public int getTurns() {
+        return this.turns;
     }
 }

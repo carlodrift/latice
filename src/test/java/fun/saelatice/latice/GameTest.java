@@ -6,7 +6,10 @@ import fun.saelatice.latice.model.tile.TileColor;
 import fun.saelatice.latice.model.tile.TileShape;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotSame;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -35,5 +38,21 @@ class GameTest {
         this.game.nextPlayer();
         Player playerAfter = this.game.getCurrentPlayer();
         assertNotSame(playerBefore, playerAfter);
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+            "0, 0",
+            "1, 0",
+            "2, 1",
+            "4, 2",
+            "8, 4",
+    })
+    void Should_Count_Cycles_Properly(int turns, int cycles) {
+        this.game.start();
+        for (int i = 0; i <= turns; i++) {
+            this.game.nextPlayer();
+        }
+        assertEquals(cycles, this.game.getCycles());
     }
 }
