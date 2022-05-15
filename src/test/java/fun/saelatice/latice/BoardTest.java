@@ -14,6 +14,8 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class BoardTest {
 
@@ -164,5 +166,45 @@ class BoardTest {
         List<Tile> aroundTiles = this.board.getAroundTiles(5, 4);
 
         assertThat(aroundTiles).containsExactlyInAnyOrder(greenToad, yellowToad);
+    }
+
+    @Test
+    void Should_Be_Able_To_Play_On_Moon_Square_When_No_Other_Tile() {
+        Tile greenYoshi = new Tile(TileColor.GREEN, TileShape.YOSHI);
+        assertTrue(this.board.canPlayHere(new Position(4,4), greenYoshi));
+    }
+
+    @Test
+    void Should_Not_Be_Able_To_Play_When_No_Other_Tile() {
+        Tile redYoshi = new Tile(TileColor.RED, TileShape.YOSHI);
+        assertFalse(this.board.canPlayHere(new Position(2,6), redYoshi));
+    }
+
+    @Test
+    void Should_Be_Able_To_Play_When_Compatibles_Tiles_Around() {
+        Tile yellowYoshi = new Tile(TileColor.YELLOW, TileShape.YOSHI);
+        Tile blueYoshi = new Tile(TileColor.BLUE, TileShape.YOSHI);
+        this.board.setTile(new Position(2, 2), yellowYoshi);
+        this.board.setTile(new Position(3, 3), blueYoshi);
+
+        Tile greenYoshi = new Tile(TileColor.GREEN, TileShape.YOSHI);
+        assertTrue(this.board.canPlayHere(new Position(3,2), greenYoshi));
+    }
+
+    @Test
+    void Should_Not_Be_Able_To_Play_When_Tile_Placed_On_Another_Tile() {
+        Tile blueYoshi = new Tile(TileColor.BLUE, TileShape.YOSHI);
+        this.board.setTile(new Position(3, 3), blueYoshi);
+
+        Tile redYoshi = new Tile(TileColor.RED, TileShape.YOSHI);
+        assertFalse(this.board.canPlayHere(new Position(3,3), redYoshi));
+    }
+
+    @Test
+    void Should_Not_Be_Able_To_Play_When_No_Compatible_Tiles_Around() {
+        Tile pinkPeach = new Tile(TileColor.PINK, TileShape.PEACH);
+        this.board.setTile(new Position(3, 3), pinkPeach);
+        Tile redYoshi = new Tile(TileColor.GREEN, TileShape.YOSHI);
+        assertFalse(this.board.canPlayHere(new Position(3,2), redYoshi));
     }
 }

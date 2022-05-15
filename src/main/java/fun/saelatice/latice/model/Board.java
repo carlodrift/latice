@@ -118,7 +118,6 @@ public class Board {
         return this.squares;
     }
 
-    //TODO tester méthode
     public boolean canPlayHere(Position position, Tile tile) {
         Square square = this.squares.get(position);
         if (square.getTile() != null) {
@@ -142,8 +141,7 @@ public class Board {
         player.getRack().remove(tile);
         player.fillRack();
     }
-
-    //TODO tester méthode
+    
     public void setTile(Position position, Tile tile) {
         this.squares.get(position).setTile(tile);
     }

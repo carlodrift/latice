@@ -15,6 +15,9 @@ public record PlayTileController(DataFormat format, Board board, Position positi
     @Override
     public void handle(DragEvent event) {
         Dragboard db = event.getDragboard();
+        if (db.getContent(this.format) == null) {
+            return;
+        }
         Tile tile = (Tile) db.getContent(this.format);
         if (this.board.canPlayHere(this.position, tile)) {
             this.board.playTile(this.position, tile, this.game.getCurrentPlayer());
