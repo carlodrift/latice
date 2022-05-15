@@ -17,6 +17,7 @@ public class Board {
     public static final int TREFOIL_POINTS = 2;
     public static final int LATICE_POINTS = 4;
     public static final int STAR_POINTS = 2;
+    public static final int MOVE_PRICE = 2;
     private final Map<Position, Square> squares = new HashMap<>();
 
     public void init() {
@@ -136,8 +137,12 @@ public class Board {
 
     //TODO tester méthode
     public void playTile(Position position, Tile tile, Player player) {
+        if (!player.isFreeMove()) {
+            player.removePoint(Board.MOVE_PRICE);
+        }
         this.setTile(position, tile);
         player.addPoint(this.getPointsAt(position));
+        player.freeMovePlayed();
         player.getRack().remove(tile);
         player.fillRack();
     }

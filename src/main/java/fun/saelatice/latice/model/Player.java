@@ -11,6 +11,7 @@ public class Player {
     private List<Tile> pool = new ArrayList<>();
     private List<Tile> rack = new ArrayList<>();
     private int points = 0;
+    private boolean freeMove = true;
 
     public void changeRack() {
         if (this.pool.size() >= this.rack.size()) {
@@ -62,5 +63,17 @@ public class Player {
 
     public void setPool(List<Tile> pool) {
         this.pool = pool;
+    }
+
+    public boolean isFreeMove() {
+        return this.freeMove;
+    }
+
+    public void freeMovePlayed() {
+        this.freeMove = false;
+    }
+
+    public void resetFreeMove() {
+        this.freeMove = true;
     }
 }

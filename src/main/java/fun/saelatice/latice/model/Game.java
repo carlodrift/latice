@@ -47,6 +47,7 @@ public class Game {
 
     public void nextPlayer() {
         this.currentPlayer = this.currentPlayer == this.player1 ? this.player2 : this.player1;
+        this.currentPlayer.resetFreeMove();
         this.turns += 1;
         if ((this.turns - 1) % 2 == 0 && this.turns != 1) {
             this.cycles += 1;
