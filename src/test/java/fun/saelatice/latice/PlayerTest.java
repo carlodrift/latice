@@ -2,13 +2,15 @@ package fun.saelatice.latice;
 
 import fun.saelatice.latice.model.Game;
 import fun.saelatice.latice.model.tile.Tile;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertNotSame;
+import static org.junit.jupiter.api.Assertions.assertSame;
 
 class PlayerTest {
 
@@ -35,7 +37,7 @@ class PlayerTest {
         this.game.getPlayer1().changeRack();
         List<Tile> newTiles = new ArrayList<>(this.game.getPlayer1().getRack());
         for (int i = 0; i < oldTiles.size(); i++) {
-            Assertions.assertNotSame(oldTiles.get(i), newTiles.get(i));
+            assertNotSame(oldTiles.get(i), newTiles.get(i));
         }
     }
 
@@ -51,7 +53,7 @@ class PlayerTest {
         this.game.getPlayer1().changeRack();
         List<Tile> newTiles = new ArrayList<>(this.game.getPlayer1().getRack());
         for (int i = 0; i < oldTiles.size(); i++) {
-            Assertions.assertSame(oldTiles.get(i), newTiles.get(i));
+            assertSame(oldTiles.get(i), newTiles.get(i));
         }
     }
 

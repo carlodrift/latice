@@ -4,11 +4,12 @@ import fun.saelatice.latice.model.Game;
 import fun.saelatice.latice.model.tile.Tile;
 import fun.saelatice.latice.model.tile.TileColor;
 import fun.saelatice.latice.model.tile.TileShape;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class TileTest {
 
@@ -31,7 +32,7 @@ class TileTest {
                 }
             }
         }
-        Assertions.assertEquals(
+        assertEquals(
                 (colors + shapes) - 1,
                 tileMatches / (colors * shapes)
         );

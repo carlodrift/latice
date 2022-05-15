@@ -7,12 +7,13 @@ import fun.saelatice.latice.model.square.SquareType;
 import fun.saelatice.latice.model.tile.Tile;
 import fun.saelatice.latice.model.tile.TileColor;
 import fun.saelatice.latice.model.tile.TileShape;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class BoardTest {
 
@@ -32,7 +33,7 @@ class BoardTest {
                 stars += 1;
             }
         }
-        Assertions.assertEquals(16, stars);
+        assertEquals(16, stars);
     }
 
     @Test
@@ -43,7 +44,7 @@ class BoardTest {
                 moons += 1;
             }
         }
-        Assertions.assertEquals(1, moons);
+        assertEquals(1, moons);
     }
 
     @Test
@@ -54,7 +55,7 @@ class BoardTest {
                 normal += 1;
             }
         }
-        Assertions.assertEquals(64, normal);
+        assertEquals(64, normal);
     }
 
     @Test
@@ -64,7 +65,7 @@ class BoardTest {
         this.board.setTile(new Position(6, 4), new Tile(TileColor.BLUE, TileShape.BOWSER));
         this.board.setTile(new Position(5, 3), new Tile(TileColor.GREEN, TileShape.MARIO));
 
-        Assertions.assertEquals(Board.LATICE_POINTS, this.board.getPointsAt(new Position(5, 4)));
+        assertEquals(Board.LATICE_POINTS, this.board.getPointsAt(new Position(5, 4)));
     }
 
     @Test
@@ -73,7 +74,7 @@ class BoardTest {
         this.board.setTile(new Position(4, 4), new Tile(TileColor.ORANGE, TileShape.MARIO));
         this.board.setTile(new Position(5, 3), new Tile(TileColor.GREEN, TileShape.MARIO));
 
-        Assertions.assertEquals(Board.TREFOIL_POINTS, this.board.getPointsAt(new Position(5, 4)));
+        assertEquals(Board.TREFOIL_POINTS, this.board.getPointsAt(new Position(5, 4)));
     }
 
     @Test
@@ -81,24 +82,24 @@ class BoardTest {
         this.board.setTile(new Position(5, 5), new Tile(TileColor.BLUE, TileShape.MARIO));
         this.board.setTile(new Position(4, 4), new Tile(TileColor.ORANGE, TileShape.MARIO));
 
-        Assertions.assertEquals(Board.DOUBLE_POINTS, this.board.getPointsAt(new Position(5, 4)));
+        assertEquals(Board.DOUBLE_POINTS, this.board.getPointsAt(new Position(5, 4)));
     }
 
     @Test
     void Should_Be_0_Point_When_1_Tile_Around() {
         this.board.setTile(new Position(5, 5), new Tile(TileColor.BLUE, TileShape.MARIO));
 
-        Assertions.assertEquals(0, this.board.getPointsAt(new Position(5, 4)));
+        assertEquals(0, this.board.getPointsAt(new Position(5, 4)));
     }
 
     @Test
     void Should_Be_0_Point_When_0_Tile_Around() {
-        Assertions.assertEquals(0, this.board.getPointsAt(new Position(5, 5)));
+        assertEquals(0, this.board.getPointsAt(new Position(5, 5)));
     }
 
     @Test
     void Should_Be_Star_Points_When_Star_Square() {
-        Assertions.assertEquals(Board.STAR_POINTS, this.board.getPointsAt(new Position(2, 2)));
+        assertEquals(Board.STAR_POINTS, this.board.getPointsAt(new Position(2, 2)));
     }
 
     @Test
@@ -108,22 +109,19 @@ class BoardTest {
         this.board.setTile(new Position(2, 3), new Tile(TileColor.PINK, TileShape.MARIO));
         this.board.setTile(new Position(3, 2), new Tile(TileColor.GREEN, TileShape.MARIO));
 
-        Assertions.assertEquals(Board.LATICE_POINTS + Board.STAR_POINTS, this.board.getPointsAt(new Position(2, 2)));
+        assertEquals(Board.LATICE_POINTS + Board.STAR_POINTS, this.board.getPointsAt(new Position(2, 2)));
     }
 
     @Test
     void Should_Be_2_Tiles_Around_When_Top_Left_Corner() {
         Tile blueMario = new Tile(TileColor.BLUE, TileShape.MARIO);
         Tile bluePeach = new Tile(TileColor.BLUE, TileShape.PEACH);
-
         this.board.setTile(new Position(1, 2), blueMario);
         this.board.setTile(new Position(2, 1), bluePeach);
 
-        Set<Tile> aroundTiles = new HashSet<>();
-        aroundTiles.add(bluePeach);
-        aroundTiles.add(blueMario);
+        List<Tile> aroundTiles = this.board.getAroundTiles(1, 1);
 
-        Assertions.assertEquals(aroundTiles, this.board.getAroundTiles(1, 1));
+        assertThat(aroundTiles).containsExactlyInAnyOrder(blueMario, bluePeach);
     }
 
     @Test
@@ -131,17 +129,13 @@ class BoardTest {
         Tile blueMario = new Tile(TileColor.BLUE, TileShape.MARIO);
         Tile bluePeach = new Tile(TileColor.BLUE, TileShape.PEACH);
         Tile blueBowser = new Tile(TileColor.BLUE, TileShape.BOWSER);
-
         this.board.setTile(new Position(3, 1), blueMario);
         this.board.setTile(new Position(4, 2), bluePeach);
         this.board.setTile(new Position(5, 1), blueBowser);
 
-        Set<Tile> aroundTiles = new HashSet<>();
-        aroundTiles.add(bluePeach);
-        aroundTiles.add(blueMario);
-        aroundTiles.add(blueBowser);
+        List<Tile> aroundTiles = this.board.getAroundTiles(4, 1);
 
-        Assertions.assertEquals(aroundTiles, this.board.getAroundTiles(4, 1));
+        assertThat(aroundTiles).containsExactlyInAnyOrder(blueMario, bluePeach, blueBowser);
     }
 
     @Test
@@ -150,33 +144,25 @@ class BoardTest {
         Tile bluePeach = new Tile(TileColor.BLUE, TileShape.PEACH);
         Tile blueBowser = new Tile(TileColor.BLUE, TileShape.BOWSER);
         Tile blueYoshi = new Tile(TileColor.BLUE, TileShape.YOSHI);
-
         this.board.setTile(new Position(5, 3), blueMario);
         this.board.setTile(new Position(6, 4), bluePeach);
         this.board.setTile(new Position(4, 4), blueBowser);
         this.board.setTile(new Position(5, 5), blueYoshi);
 
-        Set<Tile> aroundTiles = new HashSet<>();
-        aroundTiles.add(bluePeach);
-        aroundTiles.add(blueMario);
-        aroundTiles.add(blueBowser);
-        aroundTiles.add(blueYoshi);
+        List<Tile> aroundTiles = this.board.getAroundTiles(5, 4);
 
-        Assertions.assertEquals(aroundTiles, this.board.getAroundTiles(5, 4));
+        assertThat(aroundTiles).containsExactlyInAnyOrder(blueMario, bluePeach, blueBowser, blueYoshi);
     }
 
     @Test
     void Should_Be_2_Tiles_Around_When_No_Border() {
         Tile greenToad = new Tile(TileColor.GREEN, TileShape.TOAD);
         Tile yellowToad = new Tile(TileColor.YELLOW, TileShape.TOAD);
-
         this.board.setTile(new Position(5, 3), greenToad);
         this.board.setTile(new Position(6, 4), yellowToad);
 
-        Set<Tile> aroundTiles = new HashSet<>();
-        aroundTiles.add(greenToad);
-        aroundTiles.add(yellowToad);
+        List<Tile> aroundTiles = this.board.getAroundTiles(5, 4);
 
-        Assertions.assertEquals(aroundTiles, this.board.getAroundTiles(5, 4));
+        assertThat(aroundTiles).containsExactlyInAnyOrder(greenToad, yellowToad);
     }
 }

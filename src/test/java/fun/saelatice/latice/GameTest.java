@@ -4,9 +4,11 @@ import fun.saelatice.latice.model.Game;
 import fun.saelatice.latice.model.Player;
 import fun.saelatice.latice.model.tile.TileColor;
 import fun.saelatice.latice.model.tile.TileShape;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertNotSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class GameTest {
 
@@ -21,7 +23,7 @@ class GameTest {
     void Should_Divide_Tiles_Evenly_When_Distributed() {
         int size = TileColor.values().length * TileShape.values().length;
         this.game.divideTiles();
-        Assertions.assertTrue(this.game.getPlayer1().getPool().size() == size
+        assertTrue(this.game.getPlayer1().getPool().size() == size
                 && this.game.getPlayer2().getPool().size() == size
         );
     }
@@ -32,6 +34,6 @@ class GameTest {
         Player playerBefore = this.game.getCurrentPlayer();
         this.game.nextPlayer();
         Player playerAfter = this.game.getCurrentPlayer();
-        Assertions.assertNotSame(playerBefore, playerAfter);
+        assertNotSame(playerBefore, playerAfter);
     }
 }
