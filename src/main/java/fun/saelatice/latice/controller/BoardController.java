@@ -17,6 +17,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.DataFormat;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
@@ -44,6 +45,10 @@ public class BoardController {
     private Label idPoolCount;
     @FXML
     private Label idCycles;
+    @FXML
+    private HBox idRackPane;
+    @FXML
+    private Button idChangeRack;
 
     private String getTileImagePath(Tile tile) {
         return tile.color().toString().toLowerCase() + "-" + tile.shape().toString().toLowerCase() + ".png";
@@ -146,6 +151,7 @@ public class BoardController {
         this.fillBoard(game.getBoard(), game);
         PassController passController = new PassController(this, game);
         this.idPassBtn.setOnMouseClicked(passController);
+        this.idChangeRack.setOnAction(new ChangeRackController(this, game));
         this.switchPassBtnVisibility();
         this.updateCycles(game);
         passController.handle(null);
@@ -157,11 +163,15 @@ public class BoardController {
     }
 
     public void switchRackVisibility() {
-        this.switchVisibility(this.idRack);
+        this.switchVisibility(this.idRackPane);
+        this.idChangeRack.setDisable(true);
     }
 
     public void switchPassBtnVisibility() {
         this.switchVisibility(this.idPassBtn);
     }
 
+    public void switchChangeRackDisable() {
+        this.idChangeRack.setDisable(this.idRackPane.isDisabled());
+    }
 }

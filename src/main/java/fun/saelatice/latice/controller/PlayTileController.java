@@ -27,6 +27,9 @@ public record PlayTileController(DataFormat format, Board board, Position positi
             this.boardController.fillBoard(this.board, this.game);
             PassController passController = new PassController(this.boardController, this.game);
             passController.handle(null);
+            if (this.game.getCurrentPlayer().getPoints() >= Board.MOVE_PRICE) {
+                this.boardController.switchChangeRackDisable();
+            }
         } else {
             this.boardController.loadSound(tile.shape().toString().toLowerCase() + "-failed.wav", true);
         }
