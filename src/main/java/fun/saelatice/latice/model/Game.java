@@ -53,7 +53,7 @@ public class Game {
             this.cycles += 1;
         }
     }
-    
+
     public void checkOver() {
         if ((this.turns - 1) % 2 != 0 && this.cycles + 1 == Game.MAX_CYCLES) {
             this.over = true;
@@ -79,7 +79,7 @@ public class Game {
         }
         return null;
     }
-    
+
     public Player getNextPlayer() {
         if (this.currentPlayer == this.player1) {
             return this.player2;
