@@ -22,7 +22,7 @@ class BoardTest {
     private Board board;
 
     @BeforeEach
-    public void init() {
+    public void setUp() {
         this.board = new Board();
         this.board.init();
     }

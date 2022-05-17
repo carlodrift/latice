@@ -19,13 +19,14 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotSame;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 class GameTest {
 
     private Game game;
 
     @BeforeEach
-    void init() {
+    void setUp() {
         this.game = new Game();
     }
 
@@ -84,7 +85,7 @@ class GameTest {
     }
 
     @Test
-    void When_a_tile_is_played_Should_change_rack_and_give_points() {
+    void Should_Remove_Tile_When_Played() {
         this.game.start();
         Tile orangeBowser = new Tile(TileColor.ORANGE, TileShape.BOWSER);
         List<Tile> rack = new ArrayList<>(this.game.getPlayer1().getRack());
@@ -92,14 +93,31 @@ class GameTest {
             this.game.getPlayer1().getPool().remove(orangeBowser);
         }
         rack.set(1, orangeBowser);
-        List<Tile> oldRack = rack;
         this.game.getBoard().playTile(new Position(2, 2), rack.get(1), this.game.getPlayer1());
-        assertEquals(2, this.game.getPlayer1().getPoints());
-        assertNotEquals(oldRack, this.game.getPlayer1().getRack());
+        assertNotEquals(rack, this.game.getPlayer1().getRack());
     }
 
     @Test
-    void Should_be_the_end_of_the_game_when_a_player_have_not_pool_and_rack_anymore() {
+    void Should_Give_Points_When_A_Tile_Is_Played() {
+        this.game.start();
+        Tile orangeBowser = new Tile(TileColor.ORANGE, TileShape.BOWSER);
+        List<Tile> rack = new ArrayList<>(this.game.getPlayer1().getRack());
+        for (int i = 0; i < 2; i++) {
+            this.game.getPlayer1().getPool().remove(orangeBowser);
+        }
+        rack.set(1, orangeBowser);
+        this.game.getBoard().playTile(new Position(2, 2), rack.get(1), this.game.getPlayer1());
+        assertEquals(2, this.game.getPlayer1().getPoints());
+    }
+
+    // TODO: Should_Remove_Points_When_A_Tile_Is_Played_With_No_More_Free_Move
+    @Test
+    void Should_Remove_Points_When_A_Tile_Is_Played_With_No_More_Free_Move() {
+        fail("TODO");
+    }
+
+    @Test
+    void Should_End_Game_When_Player_Has_No_More_Tiles() {
         this.game.start();
         Player joueur = this.game.getCurrentPlayer();
         joueur.getPool().clear();
@@ -109,9 +127,9 @@ class GameTest {
     }
 
     @Test
-    void Should_be_the_end_of_the_game_after_10_cycles() {
+    void Should_End_Game_When_10_Cycles() {
         this.game.start();
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < Game.MAX_CYCLES * 2; i++) {
             this.game.nextPlayer();
         }
         this.game.checkOver();

@@ -4,6 +4,7 @@ import fun.saelatice.latice.model.Game;
 import fun.saelatice.latice.model.tile.Tile;
 import fun.saelatice.latice.model.tile.TileColor;
 import fun.saelatice.latice.model.tile.TileShape;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -16,7 +17,7 @@ class TileTest {
     private List<Tile> tiles;
 
     @BeforeEach
-    void init() {
+    void setUp() {
         this.tiles = Game.createTiles(1);
     }
 

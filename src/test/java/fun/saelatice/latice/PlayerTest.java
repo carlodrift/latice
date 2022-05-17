@@ -17,7 +17,7 @@ class PlayerTest {
     private Game game;
 
     @BeforeEach
-    void init() {
+    void setUp() {
         this.game = new Game();
         this.game.divideTiles();
         this.game.getPlayer1().changeRack();
