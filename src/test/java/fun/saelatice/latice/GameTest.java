@@ -9,8 +9,11 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
+import java.util.ArrayList;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotSame;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class GameTest {
@@ -46,7 +49,7 @@ class GameTest {
             "1, 0",
             "2, 1",
             "4, 2",
-            "8, 4",
+            "8, 4"
     })
     void Should_Count_Cycles_Properly(int turns, int cycles) {
         this.game.start();
@@ -54,5 +57,25 @@ class GameTest {
             this.game.nextPlayer();
         }
         assertEquals(cycles, this.game.getCycles());
+    }
+
+    @Test
+    void Should_Declare_Player_1_Winner_When_They_Have_Less_Tiles() {
+        this.game.start();
+        this.game.getPlayer1().setRack(new ArrayList<>(this.game.getPlayer1().getRack().subList(0, 2)));
+        assertEquals(this.game.getWinner(), this.game.getPlayer1());
+    }
+
+    @Test
+    void Should_Declare_Player_2_Winner_When_They_Have_Less_Tiles() {
+        this.game.start();
+        this.game.getPlayer2().setRack(new ArrayList<>(this.game.getPlayer1().getRack().subList(0, 2)));
+        assertEquals(this.game.getWinner(), this.game.getPlayer2());
+    }
+
+    @Test
+    void Should_Be_A_Tie_When_Same_Number_Of_Tiles() {
+        this.game.start();
+        assertNull(this.game.getWinner());
     }
 }
