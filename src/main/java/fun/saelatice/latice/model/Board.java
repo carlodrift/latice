@@ -135,10 +135,13 @@ public class Board {
         return tileMatches != 0 || square.getType() == SquareType.MOON;
     }
 
-    //TODO tester méthode
     public void playTile(Position position, Tile tile, Player player) {
+        if (!player.isFreeMove()) {
+            player.removePoint(Board.MOVE_PRICE);
+        }
         this.setTile(position, tile);
         player.addPoint(this.getPointsAt(position));
+        player.freeMovePlayed();
         player.getRack().remove(tile);
         player.fillRack();
     }

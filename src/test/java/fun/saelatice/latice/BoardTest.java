@@ -22,7 +22,7 @@ class BoardTest {
     private Board board;
 
     @BeforeEach
-    public void init() {
+    public void setUp() {
         this.board = new Board();
         this.board.init();
     }
@@ -118,10 +118,22 @@ class BoardTest {
     void Should_Be_2_Tiles_Around_When_Top_Left_Corner() {
         Tile blueMario = new Tile(TileColor.BLUE, TileShape.MARIO);
         Tile bluePeach = new Tile(TileColor.BLUE, TileShape.PEACH);
-        this.board.setTile(new Position(1, 2), blueMario);
-        this.board.setTile(new Position(2, 1), bluePeach);
+        this.board.setTile(new Position(0, 1), blueMario);
+        this.board.setTile(new Position(1, 0), bluePeach);
 
-        List<Tile> aroundTiles = this.board.getAroundTiles(1, 1);
+        List<Tile> aroundTiles = this.board.getAroundTiles(0, 0);
+
+        assertThat(aroundTiles).containsExactlyInAnyOrder(blueMario, bluePeach);
+    }
+    
+    @Test
+    void Should_Be_2_Tiles_Around_When_Bottom_Right_Corner() {
+        Tile blueMario = new Tile(TileColor.BLUE, TileShape.MARIO);
+        Tile bluePeach = new Tile(TileColor.BLUE, TileShape.PEACH);
+        this.board.setTile(new Position(8, 7), blueMario);
+        this.board.setTile(new Position(7, 8), bluePeach);
+
+        List<Tile> aroundTiles = this.board.getAroundTiles(8, 8);
 
         assertThat(aroundTiles).containsExactlyInAnyOrder(blueMario, bluePeach);
     }
@@ -131,11 +143,11 @@ class BoardTest {
         Tile blueMario = new Tile(TileColor.BLUE, TileShape.MARIO);
         Tile bluePeach = new Tile(TileColor.BLUE, TileShape.PEACH);
         Tile blueBowser = new Tile(TileColor.BLUE, TileShape.BOWSER);
-        this.board.setTile(new Position(3, 1), blueMario);
-        this.board.setTile(new Position(4, 2), bluePeach);
-        this.board.setTile(new Position(5, 1), blueBowser);
+        this.board.setTile(new Position(3, 0), blueMario);
+        this.board.setTile(new Position(4, 1), bluePeach);
+        this.board.setTile(new Position(5, 0), blueBowser);
 
-        List<Tile> aroundTiles = this.board.getAroundTiles(4, 1);
+        List<Tile> aroundTiles = this.board.getAroundTiles(4, 0);
 
         assertThat(aroundTiles).containsExactlyInAnyOrder(blueMario, bluePeach, blueBowser);
     }
