@@ -47,6 +47,7 @@ public class Game {
 
     public void nextPlayer() {
         this.currentPlayer = this.currentPlayer == this.player1 ? this.player2 : this.player1;
+        this.currentPlayer.resetFreeMove();
         this.turns += 1;
         if ((this.turns - 1) % 2 == 0 && this.turns != 1) {
             this.cycles += 1;
@@ -68,6 +69,7 @@ public class Game {
         });
     }
 
+    //TODO : tester méthode
     public Player getWinner() {
         int remainingTilesPlayer1 = this.player1.getRack().size() + this.player1.getPool().size();
         int remainingTilesPlayer2 = this.player2.getRack().size() + this.player2.getPool().size();
@@ -79,6 +81,7 @@ public class Game {
         return null;
     }
 
+    //TODO : tester méthode
     public Player getNextPlayer() {
         if (this.currentPlayer == this.player1) {
             return this.player2;
