@@ -26,15 +26,15 @@ public class Board {
                 this.squares.put(new Position(i, j), new Square(SquareType.NORMAL));
             }
         }
-        this.getMoonSquaresPosition().forEach(position ->
+        this.moonSquaresPosition().forEach(position ->
                 this.squares.put(position, new Square(SquareType.MOON))
         );
-        this.getStarSquaresPosition().forEach(position ->
+        this.starSquaresPosition().forEach(position ->
                 this.squares.put(position, new Square(SquareType.STAR))
         );
     }
 
-    public Set<Position> getStarSquaresPosition() {
+    public Set<Position> starSquaresPosition() {
         Set<Position> starSquaresPosition = new HashSet<>();
         starSquaresPosition.add(new Position(0, 4));
         starSquaresPosition.add(new Position(4, 0));
@@ -47,23 +47,23 @@ public class Board {
                 }
             }
         }
-        starSquaresPosition.removeAll(this.getMoonSquaresPosition());
+        starSquaresPosition.removeAll(this.moonSquaresPosition());
         return starSquaresPosition;
     }
 
-    public Set<Position> getMoonSquaresPosition() {
+    public Set<Position> moonSquaresPosition() {
         Set<Position> moonSquaresPosition = new HashSet<>();
         moonSquaresPosition.add(new Position(4, 4));
         return moonSquaresPosition;
     }
 
-    public int getPointsAt(Position position) {
+    public int pointsAt(Position position) {
         int points = 0;
         Square square = this.squares.get(position);
         if (square.getType() == SquareType.STAR) {
             points += Board.STAR_POINTS;
         }
-        int tileMatches = this.getAroundTiles(position.x(), position.y()).size();
+        int tileMatches = this.aroundTiles(position.x(), position.y()).size();
         if (tileMatches == 2) {
             points += Board.DOUBLE_POINTS;
         } else if (tileMatches == 3) {
@@ -74,49 +74,17 @@ public class Board {
         return points;
     }
 
-    private Tile getTileAbove(int x, int y) {
-        if (y == 0) {
-            return null;
-        }
-        return this.squares.get(new Position(x, y - 1)).getTile();
-    }
-
-    private Tile getTileBelow(int x, int y) {
-        if (y == 8) {
-            return null;
-        }
-        return this.squares.get(new Position(x, y + 1)).getTile();
-    }
-
-    private Tile getTileLeft(int x, int y) {
-        if (x == 0) {
-            return null;
-        }
-        return this.squares.get(new Position(x - 1, y)).getTile();
-    }
-
-    private Tile getTileRight(int x, int y) {
-        if (x == 8) {
-            return null;
-        }
-        return this.squares.get(new Position(x + 1, y)).getTile();
-    }
-
-    public List<Tile> getAroundTiles(int x, int y) {
+    public List<Tile> aroundTiles(int x, int y) {
         List<Tile> tiles = new ArrayList<>();
-        tiles.add(this.getTileAbove(x, y));
-        tiles.add(this.getTileBelow(x, y));
-        tiles.add(this.getTileLeft(x, y));
-        tiles.add(this.getTileRight(x, y));
+        tiles.add(this.tileAbove(x, y));
+        tiles.add(this.tileBelow(x, y));
+        tiles.add(this.tileLeft(x, y));
+        tiles.add(this.tileRight(x, y));
         tiles.remove(null);
         tiles.remove(null);
         tiles.remove(null);
         tiles.remove(null);
         return tiles;
-    }
-
-    public Map<Position, Square> getSquares() {
-        return this.squares;
     }
 
     public boolean canPlayHere(Position position, Tile tile) {
@@ -125,7 +93,7 @@ public class Board {
             return false;
         }
         int tileMatches = 0;
-        for (Tile tileAround : this.getAroundTiles(position.x(), position.y())) {
+        for (Tile tileAround : this.aroundTiles(position.x(), position.y())) {
             if (!tileAround.isCompatible(tile)) {
                 return false;
             } else {
@@ -140,13 +108,45 @@ public class Board {
             player.removePoint(Board.MOVE_PRICE);
         }
         this.setTile(position, tile);
-        player.addPoint(this.getPointsAt(position));
+        player.addPoint(this.pointsAt(position));
         player.freeMovePlayed();
         player.getRack().remove(tile);
         player.fillRack();
     }
-    
+
+    private Tile tileAbove(int x, int y) {
+        if (y == 0) {
+            return null;
+        }
+        return this.squares.get(new Position(x, y - 1)).getTile();
+    }
+
+    private Tile tileBelow(int x, int y) {
+        if (y == 8) {
+            return null;
+        }
+        return this.squares.get(new Position(x, y + 1)).getTile();
+    }
+
+    private Tile tileLeft(int x, int y) {
+        if (x == 0) {
+            return null;
+        }
+        return this.squares.get(new Position(x - 1, y)).getTile();
+    }
+
+    private Tile tileRight(int x, int y) {
+        if (x == 8) {
+            return null;
+        }
+        return this.squares.get(new Position(x + 1, y)).getTile();
+    }
+
     public void setTile(Position position, Tile tile) {
         this.squares.get(position).setTile(tile);
+    }
+
+    public Map<Position, Square> getSquares() {
+        return this.squares;
     }
 }
