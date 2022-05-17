@@ -134,7 +134,6 @@ public class Board {
         return tileMatches != 0 || square.getType() == SquareType.MOON;
     }
 
-    //TODO tester méthode
     public void playTile(Position position, Tile tile, Player player) {
         this.setTile(position, tile);
         player.addPoint(this.getPointsAt(position));

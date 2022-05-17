@@ -52,8 +52,7 @@ public class Game {
             this.cycles += 1;
         }
     }
-
-    //TODO : tester les conditions de victoire
+    
     public void checkOver() {
         if ((this.turns - 1) % 2 != 0 && this.cycles + 1 == Game.MAX_CYCLES) {
             this.over = true;
