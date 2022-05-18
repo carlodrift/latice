@@ -119,8 +119,4 @@ public class Game {
     public boolean isOver() {
         return this.over;
     }
-
-    public int getTurns() {
-        return this.turns;
-    }
 }

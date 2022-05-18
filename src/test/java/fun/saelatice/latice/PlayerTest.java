@@ -1,17 +1,22 @@
 package fun.saelatice.latice;
 
+import fun.saelatice.latice.model.Board;
 import fun.saelatice.latice.model.Game;
+import fun.saelatice.latice.model.Position;
 import fun.saelatice.latice.model.tile.Tile;
+import fun.saelatice.latice.model.tile.TileColor;
+import fun.saelatice.latice.model.tile.TileShape;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotSame;
-import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class PlayerTest {
@@ -65,5 +70,16 @@ class PlayerTest {
         this.game.getPlayer1().setRack(new ArrayList<>(this.game.getPlayer1().getRack().subList(0, rackSize)));
         this.game.getPlayer1().setPool(new ArrayList<>(this.game.getPlayer1().getPool().subList(0, poolSize)));
         assertTrue(this.game.getPlayer1().canChangeRack());
+    }
+
+    @Test
+    void Should_Remove_Points_When_Rack_Changed() {
+        this.game.start();
+        Tile greenYoshi = new Tile(TileColor.GREEN, TileShape.YOSHI);
+        this.game.getBoard().playTile(new Position(6, 2), greenYoshi, this.game.getPlayer2());
+        int pointsBefore = this.game.getPlayer2().getPoints();
+        this.game.getPlayer2().changeRack(true);
+        int pointsAfter = this.game.getPlayer2().getPoints();
+        assertEquals(pointsBefore - pointsAfter, Board.MOVE_PRICE);
     }
 }
