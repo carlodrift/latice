@@ -1,5 +1,6 @@
 package fun.saelatice.latice;
 
+import fun.saelatice.latice.model.Board;
 import fun.saelatice.latice.model.Game;
 import fun.saelatice.latice.model.Player;
 import fun.saelatice.latice.model.Position;
@@ -85,15 +86,15 @@ class GameTest {
     }
 
     @Test
-    void Should_Remove_Tile_When_Played() {
+    void Should_Remove_Tile_From_Rack_When_Played() {
         this.game.start();
-        Tile orangeBowser = new Tile(TileColor.ORANGE, TileShape.BOWSER);
+        Tile redBowser = new Tile(TileColor.RED, TileShape.BOWSER);
         List<Tile> rack = new ArrayList<>(this.game.getPlayer1().getRack());
         for (int i = 0; i < 2; i++) {
-            this.game.getPlayer1().getPool().remove(orangeBowser);
+            this.game.getPlayer1().getPool().remove(redBowser);
         }
-        rack.set(1, orangeBowser);
-        this.game.getBoard().playTile(new Position(2, 2), rack.get(1), this.game.getPlayer1());
+        rack.set(1, redBowser);
+        this.game.getBoard().playTile(new Position(5, 3), rack.get(1), this.game.getPlayer1());
         assertNotEquals(rack, this.game.getPlayer1().getRack());
     }
 
@@ -101,19 +102,20 @@ class GameTest {
     void Should_Give_Points_When_A_Tile_Is_Played() {
         this.game.start();
         Tile orangeBowser = new Tile(TileColor.ORANGE, TileShape.BOWSER);
-        List<Tile> rack = new ArrayList<>(this.game.getPlayer1().getRack());
-        for (int i = 0; i < 2; i++) {
-            this.game.getPlayer1().getPool().remove(orangeBowser);
-        }
-        rack.set(1, orangeBowser);
-        this.game.getBoard().playTile(new Position(2, 2), rack.get(1), this.game.getPlayer1());
+        this.game.getBoard().playTile(new Position(2, 2), orangeBowser, this.game.getPlayer1());
         assertEquals(2, this.game.getPlayer1().getPoints());
     }
-
-    // TODO: Should_Remove_Points_When_A_Tile_Is_Played_With_No_More_Free_Move
+    
     @Test
     void Should_Remove_Points_When_A_Tile_Is_Played_With_No_More_Free_Move() {
-        fail("TODO");
+        this.game.start();
+        Tile greenYoshi = new Tile(TileColor.GREEN, TileShape.YOSHI);
+        Tile pinkPeach = new Tile(TileColor.PINK, TileShape.PEACH);
+        this.game.getBoard().playTile(new Position(6, 2), greenYoshi, this.game.getPlayer2());
+        int pointsBefore = this.game.getPlayer2().getPoints();
+        this.game.getBoard().playTile(new Position(4, 1), pinkPeach, this.game.getPlayer2());
+        int pointsAfter = this.game.getPlayer2().getPoints();
+        assertEquals(pointsBefore - pointsAfter, Board.MOVE_PRICE);
     }
 
     @Test
