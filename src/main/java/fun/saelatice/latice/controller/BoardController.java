@@ -99,7 +99,7 @@ public class BoardController {
                 return;
             }
             ImageView imageView = this.getBoardSizedImageView(input);
-            imageView.setOnDragOver(new DragTileOverBoardController(BoardController.DATA_FORMAT, square, board, position, imageView, game));
+            imageView.setOnDragEntered(new DragTileOverBoardController(BoardController.DATA_FORMAT, square, board, position, imageView, game));
             imageView.setOnDragExited(event -> imageView.setEffect(null));
             imageView.setOnDragDropped(new PlayTileController(BoardController.DATA_FORMAT, board, position, game, this));
             this.idBoard.add(imageView, position.x(), position.y());
