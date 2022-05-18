@@ -1,5 +1,6 @@
 package fun.saelatice.latice.controller;
 
+import fun.saelatice.latice.model.Board;
 import fun.saelatice.latice.model.Game;
 import fun.saelatice.latice.model.Player;
 import javafx.event.EventHandler;
@@ -38,5 +39,8 @@ public record PassController(BoardController boardController, Game game) impleme
         this.boardController.fillRack(this.game.getCurrentPlayer());
         this.boardController.updateCurrentPlayer(this.game);
         this.boardController.switchRackVisibility();
+        if (this.game.getCurrentPlayer().getPoints() >= Board.MOVE_PRICE) {
+            this.boardController.switchChangeRackDisable();
+        }
     }
 }

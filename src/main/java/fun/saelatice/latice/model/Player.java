@@ -13,14 +13,19 @@ public class Player {
     private int points = 0;
     private boolean freeMove = true;
 
-    public void changeRack() {
-        if (this.pool.size() >= this.rack.size()) {
-            List<Tile> oldTiles = new ArrayList<>(this.rack);
-            this.rack.clear();
-            this.fillRack();
-            this.pool.addAll(oldTiles);
-            Collections.shuffle(this.pool);
+    public void changeRack(boolean removePoints) {
+        if (removePoints) {
+            this.removePoint(Board.MOVE_PRICE);
         }
+        List<Tile> oldTiles = new ArrayList<>(this.rack);
+        this.rack.clear();
+        this.fillRack();
+        this.pool.addAll(oldTiles);
+        Collections.shuffle(this.pool);
+    }
+
+    public boolean canChangeRack() {
+        return this.pool.size() >= this.rack.size();
     }
 
     public void fillRack() {

@@ -91,8 +91,8 @@ public class Game {
     public void start() {
         this.board.init();
         this.divideTiles();
-        this.player1.changeRack();
-        this.player2.changeRack();
+        this.player1.changeRack(false);
+        this.player2.changeRack(false);
         this.currentPlayer = this.random.nextBoolean() ? this.player1 : this.player2;
     }
 
