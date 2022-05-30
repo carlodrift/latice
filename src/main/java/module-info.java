@@ -8,4 +8,5 @@ module fun.saelatice.latice {
 
     opens fun.saelatice.latice.controller to javafx.fxml;
     exports fun.saelatice.latice;
+    opens fun.saelatice.latice.view to javafx.fxml;
 }

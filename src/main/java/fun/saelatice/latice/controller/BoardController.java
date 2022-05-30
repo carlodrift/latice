@@ -6,6 +6,7 @@ import fun.saelatice.latice.model.Player;
 import fun.saelatice.latice.model.square.Square;
 import fun.saelatice.latice.model.tile.Tile;
 import fun.saelatice.latice.model.tile.TileShape;
+import fun.saelatice.latice.view.BoardSizedImageView;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -50,22 +51,13 @@ public class BoardController {
     @FXML
     private Button idChangeRack;
 
-    private String getTileImagePath(Tile tile) {
+    private String tileImagePath(Tile tile) {
         return tile.color().toString().toLowerCase() + "-" + tile.shape().toString().toLowerCase() + ".png";
     }
 
-    private String getSquareImagePath(Square square) {
+    private String squareImagePath(Square square) {
         return square.getType().toString().toLowerCase() + ".png";
 
-    }
-
-    private ImageView getBoardSizedImageView(InputStream input) {
-        Image image = new Image(input);
-        ImageView imageView = new ImageView(image);
-        imageView.setFitHeight(this.idBoard.getMaxHeight() / 9);
-        imageView.setFitWidth(this.idBoard.getMaxWidth() / 9);
-        imageView.setBlendMode(BlendMode.MULTIPLY);
-        return imageView;
     }
 
     public void fillRack(Player player) {
@@ -73,13 +65,13 @@ public class BoardController {
         Tile tile;
         for (int j = 0; j < player.getRack().size(); j++) {
             tile = player.getRack().get(j);
-            InputStream input = this.getClass().getResourceAsStream(this.getTileImagePath(tile));
-            InputStream input1 = this.getClass().getResourceAsStream(this.getTileImagePath(tile));
+            InputStream input = this.getClass().getResourceAsStream(this.tileImagePath(tile));
+            InputStream input1 = this.getClass().getResourceAsStream(this.tileImagePath(tile));
             if (input == null || input1 == null) {
                 return;
             }
             Image image = new Image(input1, 45, 0, true, true);
-            ImageView imageView = this.getBoardSizedImageView(input);
+            ImageView imageView = new BoardSizedImageView(new Image(input), this.idBoard);
             imageView.addEventFilter(MouseEvent.DRAG_DETECTED, new DragTileController(imageView, image, this.idRack, tile, BoardController.DATA_FORMAT));
             imageView.setOnDragDone(new DragTileDoneController(this.idRack, imageView));
             this.idRack.add(imageView, j, 0);
@@ -91,14 +83,14 @@ public class BoardController {
         board.getSquares().forEach((position, square) -> {
             InputStream input;
             if (square.getTile() != null) {
-                input = this.getClass().getResourceAsStream(this.getTileImagePath(square.getTile()));
+                input = this.getClass().getResourceAsStream(this.tileImagePath(square.getTile()));
             } else {
-                input = this.getClass().getResourceAsStream(this.getSquareImagePath(square));
+                input = this.getClass().getResourceAsStream(this.squareImagePath(square));
             }
             if (input == null) {
                 return;
             }
-            ImageView imageView = this.getBoardSizedImageView(input);
+            ImageView imageView = new BoardSizedImageView(new Image(input), this.idBoard);
             imageView.setOnDragEntered(new DragTileOverBoardController(BoardController.DATA_FORMAT, square, board, position, imageView, game));
             imageView.setOnDragExited(event -> imageView.setEffect(null));
             imageView.setOnDragDropped(new PlayTileController(BoardController.DATA_FORMAT, board, position, game, this));
