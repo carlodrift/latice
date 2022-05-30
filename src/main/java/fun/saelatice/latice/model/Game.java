@@ -13,8 +13,8 @@ import java.util.Set;
 
 public class Game {
 
-    public static final String PLAYER_2 = "Joueur 2";
-    public static final String PLAYER_1 = "Joueur 1";
+    private static String player1Name = "Joueur 2";
+    private static String player2Name = "Joueur 1";
     public static final int MAX_CYCLES = 10;
     private final Player player1 = new Player();
     private final Player player2 = new Player();
@@ -118,5 +118,21 @@ public class Game {
 
     public boolean isOver() {
         return this.over;
+    }
+
+    public static void setPlayer1Name(String player1Name) {
+        Game.player1Name = player1Name;
+    }
+
+    public static void setPlayer2Name(String player2Name) {
+        Game.player2Name = player2Name;
+    }
+
+    public static String player1Name() {
+        return Game.player1Name;
+    }
+
+    public static String player2Name() {
+        return Game.player2Name;
     }
 }

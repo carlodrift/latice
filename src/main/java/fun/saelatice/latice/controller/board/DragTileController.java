@@ -1,4 +1,4 @@
-package fun.saelatice.latice.controller;
+package fun.saelatice.latice.controller.board;
 
 import fun.saelatice.latice.model.tile.Tile;
 import javafx.event.EventHandler;

@@ -1,4 +1,4 @@
-package fun.saelatice.latice.controller;
+package fun.saelatice.latice.controller.board;
 
 import javafx.event.EventHandler;
 import javafx.scene.image.ImageView;

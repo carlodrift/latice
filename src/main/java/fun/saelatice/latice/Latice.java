@@ -16,7 +16,7 @@ public class Latice extends Application {
 
     @Override
     public void start(Stage primaryStage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(this.getClass().getResource("board-view.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(this.getClass().getResource("welcome-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         primaryStage.setScene(scene);
         primaryStage.setResizable(false);

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.media.MediaView?>
+<?import javafx.scene.text.Font?>
+
+<Pane prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fun.saelatice.latice.controller.welcome.WelcomeController">
+   <children>
+   <MediaView fx:id="idVideoMediaView" fitHeight="600" fitWidth="1200" layoutX="-83.5" />
+      <MediaView fx:id="idMusicMediaView" fitHeight="600" fitWidth="1200" layoutX="-73.5" layoutY="10.0" />
+      <VBox alignment="CENTER" layoutX="325.3333435058594" layoutY="225.3333282470703" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="350.0" prefWidth="250.0" spacing="20.0">
+         <children>
+            <Button fx:id="idPlayBtn" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#playAlert" style="-fx-background-color: none;" text="JOUER" textFill="#aaaaaa">
+               <font>
+                  <Font name="Arial Bold" size="36.0" />
+               </font>
+            </Button>
+            <Button fx:id="idSettingsBtn" mnemonicParsing="false" onAction="#settings" style="-fx-background-color: none;" text="OPTIONS" textFill="#aaaaaa">
+               <font>
+                  <Font name="Arial Bold" size="36.0" />
+               </font>
+            </Button>
+            <Button fx:id="idQuitBtn" mnemonicParsing="false" onAction="#close" style="-fx-background-color: none;" text="QUITTER" textFill="#aaaaaa">
+               <font>
+                  <Font name="Arial Bold" size="36.0" />
+               </font>
+            </Button>
+         </children>
+      </VBox>
+      <Pane fx:id="idPlayAlertPane" layoutX="245.0" layoutY="210.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="280.0" prefWidth="410.0" style="-fx-background-color: #2c2c2c; -fx-opacity: 30; -fx-background-radius: 20;" visible="false">
+         <children>
+            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="38.0" layoutY="42.0" text="Nom des joueurs" textAlignment="CENTER" textFill="WHITE">
+               <font>
+                  <Font name="Arial Bold" size="36.0" />
+               </font>
+            </Label>
+            <TextField fx:id="idName1TextField" layoutX="28.0" layoutY="111.0" prefWidth="170.0" promptText="Joueur 1" style="-fx-background-color: #2c2c2c; -fx-text-fill: white;">
+               <font>
+                  <Font name="Arial Bold" size="18.0" />
+               </font>
+            </TextField>
+            <TextField fx:id="idName2TextField" layoutX="214.0" layoutY="111.0" prefWidth="170.0" promptText="Joueur 2" style="-fx-background-color: #2c2c2c; -fx-text-fill: white;">
+               <font>
+                  <Font name="Arial Bold" size="18.0" />
+               </font>
+            </TextField>
+            <Button fx:id="idNewGameBtn" layoutX="12.0" layoutY="181.0" mnemonicParsing="false" onAction="#start" style="-fx-background-color: none;" text="NOUVELLE PARTIE" textFill="WHITE">
+               <font>
+                  <Font name="Arial Bold" size="36.0" />
+               </font>
+            </Button>
+            <Button layoutX="351.0" layoutY="6.0" mnemonicParsing="false" onAction="#closePlayAlert" style="-fx-background-color: #2c2c2c;" text="❌" textFill="#ff6565">
+               <font>
+                  <Font size="23.0" />
+               </font>
+            </Button>
+         </children>
+      </Pane>
+   </children>
+</Pane>

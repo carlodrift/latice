@@ -44,9 +44,9 @@ public class Player {
 
     public String playerName(Game game) {
         if (game.getPlayer1() == this) {
-            return Game.PLAYER_1;
+            return Game.player1Name();
         } else {
-            return Game.PLAYER_2;
+            return Game.player2Name();
         }
     }
 

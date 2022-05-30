@@ -6,7 +6,8 @@ module fun.saelatice.latice {
     requires javafx.media;
 
 
-    opens fun.saelatice.latice.controller to javafx.fxml;
     exports fun.saelatice.latice;
     opens fun.saelatice.latice.view to javafx.fxml;
+    opens fun.saelatice.latice.controller.board to javafx.fxml;
+    opens fun.saelatice.latice.controller.welcome to javafx.fxml;
 }

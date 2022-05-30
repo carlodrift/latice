@@ -15,7 +15,7 @@
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fun.saelatice.latice.controller.BoardController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fun.saelatice.latice.controller.board.BoardController">
     <right>
       <VBox alignment="CENTER" BorderPane.alignment="CENTER">
          <children>
@@ -27,27 +27,6 @@
                   <Insets bottom="10.0" />
                </padding>
             </Label>
-              <Button fx:id="idPlayBtn" mnemonicParsing="false" onMouseClicked="#play" prefHeight="26.0" prefWidth="94.0" text="Jouer">
-                  <textFill>
-                      <RadialGradient centerX="0.5" centerY="0.5" radius="0.5">
-                          <stops>
-                              <Stop>
-                                  <color>
-                                      <Color />
-                                  </color>
-                              </Stop>
-                              <Stop offset="1.0">
-                                  <color>
-                                      <Color red="0.035087719559669495" green="0.9473684430122375" blue="0.5520467758178711" />
-                                  </color>
-                              </Stop>
-                          </stops>
-                      </RadialGradient>
-                  </textFill>
-               <VBox.margin>
-                  <Insets bottom="10.0" />
-               </VBox.margin>
-              </Button>
             <Button fx:id="idPassBtn" layoutX="10.0" layoutY="247.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="94.0" text="Passer" visible="false">
                <textFill>
                   <RadialGradient centerX="0.5" centerY="0.5" radius="0.5">

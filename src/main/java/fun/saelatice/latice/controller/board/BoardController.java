@@ -1,4 +1,4 @@
-package fun.saelatice.latice.controller;
+package fun.saelatice.latice.controller.board;
 
 import fun.saelatice.latice.model.Board;
 import fun.saelatice.latice.model.Game;
@@ -12,7 +12,6 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
-import javafx.scene.effect.BlendMode;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.DataFormat;
@@ -28,8 +27,6 @@ import java.net.URL;
 public class BoardController {
 
     private static final DataFormat DATA_FORMAT = new DataFormat("Tile");
-    @FXML
-    public Button idPlayBtn;
     @FXML
     public Button idPassBtn;
     @FXML
@@ -57,7 +54,6 @@ public class BoardController {
 
     private String squareImagePath(Square square) {
         return square.getType().toString().toLowerCase() + ".png";
-
     }
 
     public void fillRack(Player player) {
@@ -132,13 +128,8 @@ public class BoardController {
         board.init();
         this.fillBoard(board, null);
         this.loadSound(TileShape.values()[0] + "-failed.wav", false);
-    }
-
-    @FXML
-    public void play(MouseEvent mouseEvent) {
         Game game = new Game();
         game.start();
-        ((Button) mouseEvent.getSource()).setVisible(false);
         this.fillRack(game.getCurrentPlayer());
         this.fillBoard(game.getBoard(), game);
         PassController passController = new PassController(this, game);
