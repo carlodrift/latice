@@ -44,7 +44,7 @@ class GameTest {
     void Should_Pass_To_Next_Player_When_Method_Called() {
         this.game.start();
         Player playerBefore = this.game.getCurrentPlayer();
-        this.game.nextPlayer();
+        this.game.goNextPlayer();
         Player playerAfter = this.game.getCurrentPlayer();
         assertNotSame(playerBefore, playerAfter);
     }
@@ -60,7 +60,7 @@ class GameTest {
     void Should_Count_Cycles_Properly(int turns, int cycles) {
         this.game.start();
         for (int i = 0; i <= turns; i++) {
-            this.game.nextPlayer();
+            this.game.goNextPlayer();
         }
         assertEquals(cycles, this.game.getCycles());
     }
@@ -69,20 +69,20 @@ class GameTest {
     void Should_Declare_Player_1_Winner_When_They_Have_Less_Tiles() {
         this.game.start();
         this.game.getPlayer1().setRack(new ArrayList<>(this.game.getPlayer1().getRack().subList(0, 2)));
-        assertEquals(this.game.getWinner(), this.game.getPlayer1());
+        assertEquals(this.game.winner(), this.game.getPlayer1());
     }
 
     @Test
     void Should_Declare_Player_2_Winner_When_They_Have_Less_Tiles() {
         this.game.start();
         this.game.getPlayer2().setRack(new ArrayList<>(this.game.getPlayer1().getRack().subList(0, 2)));
-        assertEquals(this.game.getWinner(), this.game.getPlayer2());
+        assertEquals(this.game.winner(), this.game.getPlayer2());
     }
 
     @Test
     void Should_Be_A_Tie_When_Same_Number_Of_Tiles() {
         this.game.start();
-        assertNull(this.game.getWinner());
+        assertNull(this.game.winner());
     }
 
     @Test
@@ -132,7 +132,7 @@ class GameTest {
     void Should_End_Game_When_10_Cycles() {
         this.game.start();
         for (int i = 0; i < Game.MAX_CYCLES * 2; i++) {
-            this.game.nextPlayer();
+            this.game.goNextPlayer();
         }
         this.game.checkOver();
         assertTrue(this.game.isOver());

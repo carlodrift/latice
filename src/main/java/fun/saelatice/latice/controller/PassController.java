@@ -17,11 +17,11 @@ public record PassController(BoardController boardController, Game game) impleme
         if (this.game.isOver()) {
             this.boardController.switchPassBtnVisibility();
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            Player winner = this.game.getWinner();
+            Player winner = this.game.winner();
             String headerText = "Égalité !";
             if (winner != null) {
                 String winnerName;
-                winnerName = winner.getPlayerName(this.game);
+                winnerName = winner.playerName(this.game);
                 headerText = winnerName + " est le vainqueur !";
             }
             alert.setHeaderText(headerText);
@@ -30,12 +30,12 @@ public record PassController(BoardController boardController, Game game) impleme
             return;
         }
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setHeaderText(this.game.getNextPlayer().getPlayerName(this.game) + ", à vous !");
+        alert.setHeaderText(this.game.nextPlayer().playerName(this.game) + ", à vous !");
         alert.setContentText("Préparez-vous à jouer...");
         ButtonType ready = new ButtonType("Je suis prêt !");
         alert.getButtonTypes().setAll(ready);
         alert.showAndWait();
-        this.game.nextPlayer();
+        this.game.goNextPlayer();
         this.boardController.fillRack(this.game.getCurrentPlayer());
         this.boardController.updateCurrentPlayer(this.game);
         this.boardController.switchRackVisibility();

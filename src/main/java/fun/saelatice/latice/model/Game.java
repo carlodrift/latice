@@ -45,7 +45,7 @@ public class Game {
         this.player2.setPool(new ArrayList<>(tiles.subList(tiles.size() / 2, tiles.size())));
     }
 
-    public void nextPlayer() {
+    public void goNextPlayer() {
         this.currentPlayer = this.currentPlayer == this.player1 ? this.player2 : this.player1;
         this.currentPlayer.resetFreeMove();
         this.turns += 1;
@@ -69,7 +69,7 @@ public class Game {
         });
     }
 
-    public Player getWinner() {
+    public Player winner() {
         int remainingTilesPlayer1 = this.player1.getRack().size() + this.player1.getPool().size();
         int remainingTilesPlayer2 = this.player2.getRack().size() + this.player2.getPool().size();
         if (remainingTilesPlayer1 < remainingTilesPlayer2) {
@@ -80,7 +80,7 @@ public class Game {
         return null;
     }
 
-    public Player getNextPlayer() {
+    public Player nextPlayer() {
         if (this.currentPlayer == this.player1) {
             return this.player2;
         } else {

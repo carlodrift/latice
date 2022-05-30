@@ -42,16 +42,20 @@ public class Player {
         this.points -= point;
     }
 
-    public int getPoints() {
-        return this.points;
-    }
-
-    public String getPlayerName(Game game) {
+    public String playerName(Game game) {
         if (game.getPlayer1() == this) {
             return Game.PLAYER_1;
         } else {
             return Game.PLAYER_2;
         }
+    }
+
+    public void freeMovePlayed() {
+        this.freeMove = false;
+    }
+
+    public void resetFreeMove() {
+        this.freeMove = true;
     }
 
     public List<Tile> getRack() {
@@ -70,15 +74,11 @@ public class Player {
         this.pool = pool;
     }
 
+    public int getPoints() {
+        return this.points;
+    }
+
     public boolean isFreeMove() {
         return this.freeMove;
-    }
-
-    public void freeMovePlayed() {
-        this.freeMove = false;
-    }
-
-    public void resetFreeMove() {
-        this.freeMove = true;
     }
 }

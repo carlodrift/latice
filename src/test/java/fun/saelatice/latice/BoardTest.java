@@ -62,34 +62,34 @@ class BoardTest {
 
     @Test
     void Should_Be_Latice_Points_When_4_Tiles_Around() {
-        this.board.setTile(new Position(5, 5), new Tile(TileColor.BLUE, TileShape.MARIO));
-        this.board.setTile(new Position(4, 4), new Tile(TileColor.ORANGE, TileShape.MARIO));
-        this.board.setTile(new Position(6, 4), new Tile(TileColor.BLUE, TileShape.BOWSER));
-        this.board.setTile(new Position(5, 3), new Tile(TileColor.GREEN, TileShape.MARIO));
+        this.board.putTile(new Position(5, 5), new Tile(TileColor.BLUE, TileShape.MARIO));
+        this.board.putTile(new Position(4, 4), new Tile(TileColor.ORANGE, TileShape.MARIO));
+        this.board.putTile(new Position(6, 4), new Tile(TileColor.BLUE, TileShape.BOWSER));
+        this.board.putTile(new Position(5, 3), new Tile(TileColor.GREEN, TileShape.MARIO));
 
         assertEquals(Board.LATICE_POINTS, this.board.pointsAt(new Position(5, 4)));
     }
 
     @Test
     void Should_Be_Trefoil_Points_When_3_Tiles_Around() {
-        this.board.setTile(new Position(5, 5), new Tile(TileColor.BLUE, TileShape.MARIO));
-        this.board.setTile(new Position(4, 4), new Tile(TileColor.ORANGE, TileShape.MARIO));
-        this.board.setTile(new Position(5, 3), new Tile(TileColor.GREEN, TileShape.MARIO));
+        this.board.putTile(new Position(5, 5), new Tile(TileColor.BLUE, TileShape.MARIO));
+        this.board.putTile(new Position(4, 4), new Tile(TileColor.ORANGE, TileShape.MARIO));
+        this.board.putTile(new Position(5, 3), new Tile(TileColor.GREEN, TileShape.MARIO));
 
         assertEquals(Board.TREFOIL_POINTS, this.board.pointsAt(new Position(5, 4)));
     }
 
     @Test
     void Should_Be_Double_Points_When_2_Tiles_Around() {
-        this.board.setTile(new Position(5, 5), new Tile(TileColor.BLUE, TileShape.MARIO));
-        this.board.setTile(new Position(4, 4), new Tile(TileColor.ORANGE, TileShape.MARIO));
+        this.board.putTile(new Position(5, 5), new Tile(TileColor.BLUE, TileShape.MARIO));
+        this.board.putTile(new Position(4, 4), new Tile(TileColor.ORANGE, TileShape.MARIO));
 
         assertEquals(Board.DOUBLE_POINTS, this.board.pointsAt(new Position(5, 4)));
     }
 
     @Test
     void Should_Be_0_Point_When_1_Tile_Around() {
-        this.board.setTile(new Position(5, 5), new Tile(TileColor.BLUE, TileShape.MARIO));
+        this.board.putTile(new Position(5, 5), new Tile(TileColor.BLUE, TileShape.MARIO));
 
         assertEquals(0, this.board.pointsAt(new Position(5, 4)));
     }
@@ -106,10 +106,10 @@ class BoardTest {
 
     @Test
     void Should_Be_Latice_Plus_Star_Points_When_4_Tiles_Around_And_Star_Square() {
-        this.board.setTile(new Position(1, 2), new Tile(TileColor.BLUE, TileShape.MARIO));
-        this.board.setTile(new Position(2, 1), new Tile(TileColor.ORANGE, TileShape.MARIO));
-        this.board.setTile(new Position(2, 3), new Tile(TileColor.PINK, TileShape.MARIO));
-        this.board.setTile(new Position(3, 2), new Tile(TileColor.GREEN, TileShape.MARIO));
+        this.board.putTile(new Position(1, 2), new Tile(TileColor.BLUE, TileShape.MARIO));
+        this.board.putTile(new Position(2, 1), new Tile(TileColor.ORANGE, TileShape.MARIO));
+        this.board.putTile(new Position(2, 3), new Tile(TileColor.PINK, TileShape.MARIO));
+        this.board.putTile(new Position(3, 2), new Tile(TileColor.GREEN, TileShape.MARIO));
 
         assertEquals(Board.LATICE_POINTS + Board.STAR_POINTS, this.board.pointsAt(new Position(2, 2)));
     }
@@ -118,8 +118,8 @@ class BoardTest {
     void Should_Be_2_Tiles_Around_When_Top_Left_Corner() {
         Tile blueMario = new Tile(TileColor.BLUE, TileShape.MARIO);
         Tile bluePeach = new Tile(TileColor.BLUE, TileShape.PEACH);
-        this.board.setTile(new Position(0, 1), blueMario);
-        this.board.setTile(new Position(1, 0), bluePeach);
+        this.board.putTile(new Position(0, 1), blueMario);
+        this.board.putTile(new Position(1, 0), bluePeach);
 
         List<Tile> aroundTiles = this.board.aroundTiles(0, 0);
 
@@ -130,8 +130,8 @@ class BoardTest {
     void Should_Be_2_Tiles_Around_When_Bottom_Right_Corner() {
         Tile blueMario = new Tile(TileColor.BLUE, TileShape.MARIO);
         Tile bluePeach = new Tile(TileColor.BLUE, TileShape.PEACH);
-        this.board.setTile(new Position(8, 7), blueMario);
-        this.board.setTile(new Position(7, 8), bluePeach);
+        this.board.putTile(new Position(8, 7), blueMario);
+        this.board.putTile(new Position(7, 8), bluePeach);
 
         List<Tile> aroundTiles = this.board.aroundTiles(8, 8);
 
@@ -143,9 +143,9 @@ class BoardTest {
         Tile blueMario = new Tile(TileColor.BLUE, TileShape.MARIO);
         Tile bluePeach = new Tile(TileColor.BLUE, TileShape.PEACH);
         Tile blueBowser = new Tile(TileColor.BLUE, TileShape.BOWSER);
-        this.board.setTile(new Position(3, 0), blueMario);
-        this.board.setTile(new Position(4, 1), bluePeach);
-        this.board.setTile(new Position(5, 0), blueBowser);
+        this.board.putTile(new Position(3, 0), blueMario);
+        this.board.putTile(new Position(4, 1), bluePeach);
+        this.board.putTile(new Position(5, 0), blueBowser);
 
         List<Tile> aroundTiles = this.board.aroundTiles(4, 0);
 
@@ -158,10 +158,10 @@ class BoardTest {
         Tile bluePeach = new Tile(TileColor.BLUE, TileShape.PEACH);
         Tile blueBowser = new Tile(TileColor.BLUE, TileShape.BOWSER);
         Tile blueYoshi = new Tile(TileColor.BLUE, TileShape.YOSHI);
-        this.board.setTile(new Position(5, 3), blueMario);
-        this.board.setTile(new Position(6, 4), bluePeach);
-        this.board.setTile(new Position(4, 4), blueBowser);
-        this.board.setTile(new Position(5, 5), blueYoshi);
+        this.board.putTile(new Position(5, 3), blueMario);
+        this.board.putTile(new Position(6, 4), bluePeach);
+        this.board.putTile(new Position(4, 4), blueBowser);
+        this.board.putTile(new Position(5, 5), blueYoshi);
 
         List<Tile> aroundTiles = this.board.aroundTiles(5, 4);
 
@@ -172,8 +172,8 @@ class BoardTest {
     void Should_Be_2_Tiles_Around_When_No_Border() {
         Tile greenToad = new Tile(TileColor.GREEN, TileShape.TOAD);
         Tile yellowToad = new Tile(TileColor.YELLOW, TileShape.TOAD);
-        this.board.setTile(new Position(5, 3), greenToad);
-        this.board.setTile(new Position(6, 4), yellowToad);
+        this.board.putTile(new Position(5, 3), greenToad);
+        this.board.putTile(new Position(6, 4), yellowToad);
 
         List<Tile> aroundTiles = this.board.aroundTiles(5, 4);
 
@@ -196,8 +196,8 @@ class BoardTest {
     void Should_Be_Able_To_Play_When_Compatibles_Tiles_Around() {
         Tile yellowYoshi = new Tile(TileColor.YELLOW, TileShape.YOSHI);
         Tile blueYoshi = new Tile(TileColor.BLUE, TileShape.YOSHI);
-        this.board.setTile(new Position(2, 2), yellowYoshi);
-        this.board.setTile(new Position(3, 3), blueYoshi);
+        this.board.putTile(new Position(2, 2), yellowYoshi);
+        this.board.putTile(new Position(3, 3), blueYoshi);
 
         Tile greenYoshi = new Tile(TileColor.GREEN, TileShape.YOSHI);
         assertTrue(this.board.canPlayHere(new Position(3, 2), greenYoshi));
@@ -206,7 +206,7 @@ class BoardTest {
     @Test
     void Should_Not_Be_Able_To_Play_When_Tile_Placed_On_Another_Tile() {
         Tile blueYoshi = new Tile(TileColor.BLUE, TileShape.YOSHI);
-        this.board.setTile(new Position(3, 3), blueYoshi);
+        this.board.putTile(new Position(3, 3), blueYoshi);
 
         Tile redYoshi = new Tile(TileColor.RED, TileShape.YOSHI);
         assertFalse(this.board.canPlayHere(new Position(3, 3), redYoshi));
@@ -215,7 +215,7 @@ class BoardTest {
     @Test
     void Should_Not_Be_Able_To_Play_When_No_Compatible_Tiles_Around() {
         Tile pinkPeach = new Tile(TileColor.PINK, TileShape.PEACH);
-        this.board.setTile(new Position(3, 3), pinkPeach);
+        this.board.putTile(new Position(3, 3), pinkPeach);
         Tile redYoshi = new Tile(TileColor.GREEN, TileShape.YOSHI);
         assertFalse(this.board.canPlayHere(new Position(3, 2), redYoshi));
     }

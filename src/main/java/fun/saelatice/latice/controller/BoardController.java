@@ -120,7 +120,7 @@ public class BoardController {
     }
 
     public void updateCurrentPlayer(Game game) {
-        this.idCurrentPlayer.setText(game.getCurrentPlayer().getPlayerName(game));
+        this.idCurrentPlayer.setText(game.getCurrentPlayer().playerName(game));
         this.idPoints.setText("Cagnotte : " + game.getCurrentPlayer().getPoints());
         this.idPoolCount.setText("Pioche : " + game.getCurrentPlayer().getPool().size());
         this.idPoints.setVisible(true);

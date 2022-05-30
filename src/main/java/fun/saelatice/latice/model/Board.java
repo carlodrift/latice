@@ -107,11 +107,15 @@ public class Board {
         if (!player.isFreeMove()) {
             player.removePoint(Board.MOVE_PRICE);
         }
-        this.setTile(position, tile);
+        this.putTile(position, tile);
         player.addPoint(this.pointsAt(position));
         player.freeMovePlayed();
         player.getRack().remove(tile);
         player.fillRack();
+    }
+
+    public void putTile(Position position, Tile tile) {
+        this.squares.get(position).setTile(tile);
     }
 
     private Tile tileAbove(int x, int y) {
@@ -140,10 +144,6 @@ public class Board {
             return null;
         }
         return this.squares.get(new Position(x + 1, y)).getTile();
-    }
-
-    public void setTile(Position position, Tile tile) {
-        this.squares.get(position).setTile(tile);
     }
 
     public Map<Position, Square> getSquares() {
