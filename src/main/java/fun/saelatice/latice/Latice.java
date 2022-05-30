@@ -10,6 +10,16 @@ import java.io.IOException;
 
 public class Latice extends Application {
 
+    private static Stage stage;
+
+    public static Stage stage() {
+        return Latice.stage;
+    }
+
+    public static void setStage(Stage stage) {
+        Latice.stage = stage;
+    }
+
     public static void main(String[] args) {
         Application.launch(args);
     }
@@ -22,5 +32,6 @@ public class Latice extends Application {
         primaryStage.setResizable(false);
         scene.setOnDragOver(event -> event.acceptTransferModes(TransferMode.MOVE));
         primaryStage.show();
+        Latice.setStage(primaryStage);
     }
 }
