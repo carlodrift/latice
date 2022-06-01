@@ -6,6 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.Pane;
 import javafx.scene.media.Media;
@@ -15,8 +16,6 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -49,6 +48,9 @@ public class WelcomeController {
 
     @FXML
     public void start() throws IOException {
+        if (this.idMusicMediaView.getMediaPlayer() != null) {
+            this.idMusicMediaView.getMediaPlayer().stop();
+        }
         if (!this.idName1TextField.getText().isEmpty() && this.idName1TextField.getText().equals(this.idName2TextField.getText())) {
             this.idName2TextField.setText(this.idName2TextField.getText() + " bis");
         }
@@ -104,12 +106,6 @@ public class WelcomeController {
 
         this.switchButtonsVisibility();
 
-        List<Button> buttons = Arrays.asList(this.idPlayBtn, this.idQuitBtn, this.idSettingsBtn);
-        buttons.forEach(button -> {
-            button.setOnMouseEntered(event -> button.setTextFill(Color.BLACK));
-            button.setOnMouseExited(event -> button.setTextFill(Color.valueOf("#aaaaaa")));
-        });
-
         Timer timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override
@@ -122,8 +118,12 @@ public class WelcomeController {
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                WelcomeController.this.idMusicMediaView.setMediaPlayer(musicPlayer);
-                musicPlayer.setAutoPlay(true);
+                try {
+                    WelcomeController.this.idMusicMediaView.setMediaPlayer(musicPlayer);
+                    musicPlayer.setAutoPlay(true);
+                    musicPlayer.setCycleCount(MediaPlayer.INDEFINITE);
+                } catch (NullPointerException ignored) {
+                }
             }
         }, 4500);
 
@@ -135,11 +135,20 @@ public class WelcomeController {
 
     }
 
+    @FXML
+    private void switchButtonColor(MouseEvent event) {
+        Button button = (Button) event.getSource();
+        if (button.getTextFill() == Color.BLACK) {
+            button.setTextFill(Color.valueOf("#aaaaaa"));
+        } else {
+            button.setTextFill(Color.BLACK);
+        }
+    }
+
     private void switchButtonsVisibility() {
         this.idPlayBtn.setVisible(!this.idPlayBtn.isVisible());
         this.idSettingsBtn.setVisible(!this.idSettingsBtn.isVisible());
         this.idQuitBtn.setVisible(!this.idQuitBtn.isVisible());
     }
-
 
 }

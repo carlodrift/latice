@@ -5,7 +5,6 @@ import fun.saelatice.latice.model.Game;
 import fun.saelatice.latice.model.Player;
 import fun.saelatice.latice.model.square.Square;
 import fun.saelatice.latice.model.tile.Tile;
-import fun.saelatice.latice.model.tile.TileShape;
 import fun.saelatice.latice.view.BoardSizedImageView;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -17,9 +16,10 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.DataFormat;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.scene.paint.Color;
 
 import java.io.InputStream;
 import java.net.URL;
@@ -28,11 +28,19 @@ public class BoardController {
 
     private static final DataFormat DATA_FORMAT = new DataFormat("Tile");
     @FXML
-    public Button idPassBtn;
+    private Button idPassBtn;
     @FXML
-    public GridPane idRack;
+    private GridPane idRack;
     @FXML
-    public Label idCurrentPlayer;
+    private Label idCurrentPlayer;
+    @FXML
+    private Pane idNextPlayerPane;
+    @FXML
+    private Button idReadyBtn;
+    @FXML
+    private Label idNextPlayerLabel;
+    @FXML
+    private ImageView idBackground;
     @FXML
     private GridPane idBoard;
     @FXML
@@ -44,9 +52,11 @@ public class BoardController {
     @FXML
     private Label idCycles;
     @FXML
-    private HBox idRackPane;
-    @FXML
     private Button idChangeRack;
+    @FXML
+    private ImageView idSettingsBtn;
+    @FXML
+    private Pane idSettingsPane;
 
     private String tileImagePath(Tile tile) {
         return tile.color().toString().toLowerCase() + "-" + tile.shape().toString().toLowerCase() + ".png";
@@ -94,23 +104,21 @@ public class BoardController {
         });
     }
 
-    public void loadSound(String sound, boolean play) {
+    public void loadSound(String sound) {
         if (this.idSoundCb.isSelected()) {
             URL soundURL = this.getClass().getResource(sound);
             if (soundURL != null) {
                 Media media = new Media(soundURL.toString());
                 MediaPlayer mediaPlayer = new MediaPlayer(media);
-                if (play) {
-                    mediaPlayer.setAutoPlay(true);
-                }
+                mediaPlayer.setAutoPlay(true);
             }
         }
     }
 
     public void updateCurrentPlayer(Game game) {
         this.idCurrentPlayer.setText(game.getCurrentPlayer().playerName(game));
-        this.idPoints.setText("Cagnotte : " + game.getCurrentPlayer().getPoints());
-        this.idPoolCount.setText("Pioche : " + game.getCurrentPlayer().getPool().size());
+        this.idPoints.setText(game.getCurrentPlayer().getPoints() + "");
+        this.idPoolCount.setText(game.getCurrentPlayer().getPool().size() + "");
         this.idPoints.setVisible(true);
         this.idPoolCount.setVisible(true);
         this.idCurrentPlayer.setVisible(true);
@@ -123,11 +131,34 @@ public class BoardController {
     }
 
     @FXML
+    public void ready() {
+        this.idNextPlayerPane.setVisible(false);
+        this.idPassBtn.setDisable(false);
+    }
+
+    @FXML
+    public void nextPlayerAlert() {
+        this.idPassBtn.setDisable(true);
+        this.idNextPlayerPane.setVisible(true);
+        this.idReadyBtn.setOnMouseClicked(event -> this.ready());
+    }
+
+    @FXML
+    public void parameters() {
+        this.switchVisibility(this.idSettingsPane);
+    }
+
+    @FXML
     public void initialize() {
+        InputStream settingsImage = this.getClass().getResourceAsStream("gears.png");
+        InputStream backgroundImage = this.getClass().getResourceAsStream("game.png");
+        if (settingsImage != null && backgroundImage != null) {
+            this.idSettingsBtn.setImage(new Image(settingsImage));
+            this.idBackground.setImage(new Image(backgroundImage));
+        }
         Board board = new Board();
         board.init();
         this.fillBoard(board, null);
-        this.loadSound(TileShape.values()[0] + "-failed.wav", false);
         Game game = new Game();
         game.start();
         this.fillRack(game.getCurrentPlayer());
@@ -135,26 +166,48 @@ public class BoardController {
         PassController passController = new PassController(this, game);
         this.idPassBtn.setOnMouseClicked(passController);
         this.idChangeRack.setOnAction(new ChangeRackController(this, game));
-        this.switchPassBtnVisibility();
         this.updateCycles(game);
         passController.handle(null);
         this.updateCurrentPlayer(game);
+    }
+
+    @FXML
+    private void switchButtonColor(MouseEvent event) {
+        Button button = (Button) event.getSource();
+        if (button.getTextFill() == Color.BLACK) {
+            button.setTextFill(Color.valueOf("#aaaaaa"));
+        } else {
+            button.setTextFill(Color.BLACK);
+        }
+    }
+
+    @FXML
+    private void switchPassButtonColor(MouseEvent event) {
+        Button button = (Button) event.getSource();
+        if (button.getStyle().contains("-fx-background-color: #ff8686")) {
+            button.setTextFill(Color.valueOf("#aaaaaa"));
+        } else {
+            button.setTextFill(Color.BLACK);
+        }
     }
 
     public void switchVisibility(Node node) {
         node.setVisible(!node.isVisible());
     }
 
-    public void switchRackVisibility() {
-        this.switchVisibility(this.idRackPane);
+    public void disableChangeRack() {
         this.idChangeRack.setDisable(true);
+    }
+
+    public void enableChangeRack() {
+        this.idChangeRack.setDisable(false);
     }
 
     public void switchPassBtnVisibility() {
         this.switchVisibility(this.idPassBtn);
     }
 
-    public void switchChangeRackDisable() {
-        this.idChangeRack.setDisable(this.idRackPane.isDisabled());
+    public void setNextPlayerText(String text) {
+        this.idNextPlayerLabel.setText(text);
     }
 }

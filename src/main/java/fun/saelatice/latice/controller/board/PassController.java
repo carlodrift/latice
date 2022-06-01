@@ -10,7 +10,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.input.TransferMode;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -19,7 +18,7 @@ public record PassController(BoardController boardController, Game game) impleme
 
     @Override
     public void handle(MouseEvent mouseEvent) {
-        this.boardController.switchRackVisibility();
+        this.boardController.disableChangeRack();
         this.game.checkOver();
         if (this.game.isOver()) {
             this.boardController.switchPassBtnVisibility();
@@ -48,18 +47,16 @@ public record PassController(BoardController boardController, Game game) impleme
             stage.show();
             return;
         }
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setHeaderText(this.game.nextPlayer().playerName(this.game) + ", à vous !");
-        alert.setContentText("Préparez-vous à jouer...");
-        ButtonType ready = new ButtonType("Je suis prêt !");
-        alert.getButtonTypes().setAll(ready);
-        alert.showAndWait();
+        this.boardController.setNextPlayerText(this.game.nextPlayer().playerName(this.game) + ", à vous de jouer !");
+        this.boardController.nextPlayerAlert();
         this.game.goNextPlayer();
         this.boardController.fillRack(this.game.getCurrentPlayer());
         this.boardController.updateCurrentPlayer(this.game);
-        this.boardController.switchRackVisibility();
+        this.boardController.disableChangeRack();
         if (this.game.getCurrentPlayer().getPoints() >= Board.MOVE_PRICE) {
-            this.boardController.switchChangeRackDisable();
+            this.boardController.enableChangeRack();
         }
     }
+
+
 }

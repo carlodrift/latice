@@ -14,17 +14,17 @@
       <MediaView fx:id="idMusicMediaView" fitHeight="600" fitWidth="1200" layoutX="-73.5" layoutY="10.0" />
       <VBox alignment="CENTER" layoutX="325.3333435058594" layoutY="225.3333282470703" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="350.0" prefWidth="250.0" spacing="20.0">
          <children>
-            <Button fx:id="idPlayBtn" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#playAlert" style="-fx-background-color: none;" text="JOUER" textFill="#aaaaaa">
+            <Button fx:id="idPlayBtn" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#playAlert" onMouseEntered="#switchButtonColor" onMouseExited="#switchButtonColor" style="-fx-background-color: none;" text="JOUER" textFill="#aaaaaa">
                <font>
                   <Font name="Arial Bold" size="36.0" />
                </font>
             </Button>
-            <Button fx:id="idSettingsBtn" mnemonicParsing="false" onAction="#settings" style="-fx-background-color: none;" text="OPTIONS" textFill="#aaaaaa">
+            <Button fx:id="idSettingsBtn" mnemonicParsing="false" onAction="#settings" onMouseEntered="#switchButtonColor" onMouseExited="#switchButtonColor" style="-fx-background-color: none;" text="OPTIONS" textFill="#aaaaaa">
                <font>
                   <Font name="Arial Bold" size="36.0" />
                </font>
             </Button>
-            <Button fx:id="idQuitBtn" mnemonicParsing="false" onAction="#close" style="-fx-background-color: none;" text="QUITTER" textFill="#aaaaaa">
+            <Button fx:id="idQuitBtn" mnemonicParsing="false" onAction="#close" onMouseEntered="#switchButtonColor" onMouseExited="#switchButtonColor" style="-fx-background-color: none;" text="QUITTER" textFill="#aaaaaa">
                <font>
                   <Font name="Arial Bold" size="36.0" />
                </font>
@@ -48,7 +48,7 @@
                   <Font name="Arial Bold" size="18.0" />
                </font>
             </TextField>
-            <Button fx:id="idNewGameBtn" layoutX="12.0" layoutY="181.0" mnemonicParsing="false" onAction="#start" style="-fx-background-color: none;" text="NOUVELLE PARTIE" textFill="WHITE">
+            <Button fx:id="idNewGameBtn" layoutX="12.0" layoutY="181.0" mnemonicParsing="false" onAction="#start" onMouseEntered="#switchButtonColor" onMouseExited="#switchButtonColor" style="-fx-background-color: none;" text="NOUVELLE PARTIE" textFill="WHITE">
                <font>
                   <Font name="Arial Bold" size="36.0" />
                </font>

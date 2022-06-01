@@ -22,17 +22,17 @@ public record PlayTileController(DataFormat format, Board board, Position positi
         if (this.board.canPlayHere(this.position, tile)) {
             this.board.playTile(this.position, tile, this.game.getCurrentPlayer());
             event.setDropCompleted(true);
-            this.boardController.loadSound(tile.shape().toString().toLowerCase() + "-played.wav", true);
             this.boardController.updateCurrentPlayer(this.game);
             this.boardController.fillBoard(this.board, this.game);
             if (this.game.getCurrentPlayer().getPoints() >= Board.MOVE_PRICE) {
-                this.boardController.switchChangeRackDisable();
+                this.boardController.enableChangeRack();
             } else {
                 PassController passController = new PassController(this.boardController, this.game);
                 passController.handle(null);
             }
+            this.boardController.loadSound(tile.shape().toString().toLowerCase() + "-played.wav");
         } else {
-            this.boardController.loadSound(tile.shape().toString().toLowerCase() + "-failed.wav", true);
+            this.boardController.loadSound(tile.shape().toString().toLowerCase() + "-failed.wav");
         }
     }
 }
