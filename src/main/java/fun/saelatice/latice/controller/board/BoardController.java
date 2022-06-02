@@ -35,6 +35,8 @@ public class BoardController {
     private static final DataFormat DATA_FORMAT = new DataFormat("Tile");
     private static final int MUSIC_NUMBER = 3;
     @FXML
+    public MediaView idSoundMediaView;
+    @FXML
     private MediaView idMusicMediaView;
     @FXML
     private Button idPassBtn;
@@ -151,6 +153,7 @@ public class BoardController {
                 Media media = new Media(soundURL.toString());
                 MediaPlayer mediaPlayer = new MediaPlayer(media);
                 mediaPlayer.setVolume(0.5);
+                this.idSoundMediaView.setMediaPlayer(mediaPlayer);
                 mediaPlayer.setAutoPlay(true);
             }
         }
