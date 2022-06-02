@@ -1,5 +1,6 @@
 package fun.saelatice.latice.model;
 
+import fun.saelatice.latice.Latice;
 import fun.saelatice.latice.model.tile.Tile;
 import fun.saelatice.latice.model.tile.TileColor;
 import fun.saelatice.latice.model.tile.TileShape;
@@ -19,7 +20,6 @@ public class Game {
     private final Player player1 = new Player();
     private final Player player2 = new Player();
     private final Board board = new Board();
-    private final Random random = new Random();
     private int cycles = 0;
     private int turns = 0;
     private Player currentPlayer;
@@ -93,7 +93,7 @@ public class Game {
         this.divideTiles();
         this.player1.changeRack(false);
         this.player2.changeRack(false);
-        this.currentPlayer = this.random.nextBoolean() ? this.player1 : this.player2;
+        this.currentPlayer = Latice.random().nextBoolean() ? this.player1 : this.player2;
     }
 
     public Board getBoard() {

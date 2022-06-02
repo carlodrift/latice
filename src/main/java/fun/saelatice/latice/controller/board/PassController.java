@@ -1,18 +1,12 @@
 package fun.saelatice.latice.controller.board;
 
-import fun.saelatice.latice.Latice;
 import fun.saelatice.latice.model.Board;
 import fun.saelatice.latice.model.Game;
 import fun.saelatice.latice.model.Player;
+import fun.saelatice.latice.model.tile.TileColor;
+import fun.saelatice.latice.model.tile.TileShape;
 import javafx.event.EventHandler;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
 import javafx.scene.input.MouseEvent;
-import javafx.stage.Stage;
-
-import java.io.IOException;
 
 public record PassController(BoardController boardController, Game game) implements EventHandler<MouseEvent> {
 
@@ -22,31 +16,22 @@ public record PassController(BoardController boardController, Game game) impleme
         this.game.checkOver();
         if (this.game.isOver()) {
             this.boardController.switchPassBtnVisibility();
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
             Player winner = this.game.winner();
-            String headerText = "Égalité !";
+            int tiles = TileColor.values().length * TileShape.values().length;
             if (winner != null) {
                 String winnerName;
                 winnerName = winner.playerName(this.game);
-                headerText = winnerName + " est le vainqueur !";
+                this.boardController.winAlert(winnerName, this.game.getPlayer1().playerName(this.game),
+                        this.game.getPlayer2().playerName(this.game),
+                        tiles - this.game.getPlayer1().getPool().size() - this.game.getPlayer1().getRack().size(),
+                        tiles - this.game.getPlayer2().getPool().size() - this.game.getPlayer2().getRack().size()
+                );
+            } else {
+                this.boardController.drawAlert(tiles - this.game.getCurrentPlayer().getPool().size() - this.game.getCurrentPlayer().getRack().size());
             }
-            alert.setHeaderText(headerText);
-            alert.setContentText("La partie est terminée.");
-            ButtonType ready = new ButtonType("Retour à l'accueil");
-            alert.getButtonTypes().setAll(ready);
-            alert.showAndWait();
-            Stage stage = Latice.stage();
-            FXMLLoader fxmlLoader = new FXMLLoader(Latice.class.getResource("welcome-view.fxml"));
-            Scene scene;
-            try {
-                scene = new Scene(fxmlLoader.load());
-            } catch (IOException e) {
-                return;
-            }
-            stage.setScene(scene);
-            stage.show();
-            return;
+
         }
+        this.boardController.hideSettingsMenu();
         this.boardController.setNextPlayerText(this.game.nextPlayer().playerName(this.game) + ", à vous de jouer !");
         this.boardController.nextPlayerAlert();
         this.game.goNextPlayer();

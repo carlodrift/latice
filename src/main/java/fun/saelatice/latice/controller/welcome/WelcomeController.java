@@ -3,6 +3,7 @@ package fun.saelatice.latice.controller.welcome;
 import fun.saelatice.latice.model.Game;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -16,6 +17,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -25,8 +27,6 @@ public class WelcomeController {
     private MediaView idVideoMediaView;
     @FXML
     private MediaView idMusicMediaView;
-    @FXML
-    private Button idPlayBtn;
     @FXML
     private Button idQuitBtn;
     @FXML
@@ -38,7 +38,9 @@ public class WelcomeController {
     @FXML
     private TextField idName2TextField;
     @FXML
-    private Button idSettingsBtn;
+    private Pane idPaneBtn;
+    @FXML
+    private Pane idCreditsPne;
 
     @FXML
     public void close() {
@@ -82,73 +84,87 @@ public class WelcomeController {
         this.idPlayAlertPane.setVisible(false);
     }
 
-    @FXML
-    public void settings() {
-    }
 
     @FXML
     public void initialize() {
 
-        Media intro = new Media(this.getClass().getResource("intro.mp4").toString());
-        Media introLoop = new Media(this.getClass().getResource("intro2.mp4").toString());
-        Media music = new Media(this.getClass().getResource("intro.mp3").toString());
+        URL introURL = this.getClass().getResource("intro.mp4");
+        URL introLoopURL = this.getClass().getResource("intro2.mp4");
+        URL musicURL = this.getClass().getResource("intro.mp3");
 
-        this.idPlayAlertPane.setVisible(false);
+        if (introURL != null && introLoopURL != null && musicURL != null) {
+            Media intro = new Media(introURL.toString());
+            Media introLoop = new Media(introLoopURL.toString());
+            Media music = new Media(musicURL.toString());
 
-        MediaPlayer introPlayer = new MediaPlayer(intro);
+            this.idPlayAlertPane.setVisible(false);
 
-        MediaPlayer musicPlayer = new MediaPlayer(music);
+            MediaPlayer introPlayer = new MediaPlayer(intro);
 
-        MediaPlayer introLoopPlayer = new MediaPlayer(introLoop);
+            MediaPlayer musicPlayer = new MediaPlayer(music);
 
-        this.idVideoMediaView.setMediaPlayer(introPlayer);
-        introPlayer.setAutoPlay(true);
+            MediaPlayer introLoopPlayer = new MediaPlayer(introLoop);
 
-        this.switchButtonsVisibility();
+            this.idVideoMediaView.setMediaPlayer(introPlayer);
+            introPlayer.setAutoPlay(true);
 
-        Timer timer = new Timer();
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                WelcomeController.this.switchButtonsVisibility();
-            }
-        }, 10800);
-
-
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                try {
-                    WelcomeController.this.idMusicMediaView.setMediaPlayer(musicPlayer);
-                    musicPlayer.setAutoPlay(true);
-                    musicPlayer.setCycleCount(MediaPlayer.INDEFINITE);
-                } catch (NullPointerException ignored) {
+            Timer timer = new Timer();
+            timer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    WelcomeController.this.switchButtonsVisibility();
                 }
-            }
-        }, 4500);
+            }, 10800);
 
-        introPlayer.setOnEndOfMedia(() -> {
-            WelcomeController.this.idVideoMediaView.setMediaPlayer(introLoopPlayer);
-            introLoopPlayer.setCycleCount(MediaPlayer.INDEFINITE);
-            introLoopPlayer.setAutoPlay(true);
-        });
+
+            timer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    try {
+                        WelcomeController.this.idMusicMediaView.setMediaPlayer(musicPlayer);
+                        musicPlayer.setAutoPlay(true);
+                        musicPlayer.setCycleCount(MediaPlayer.INDEFINITE);
+                    } catch (NullPointerException ignored) {
+                    }
+                }
+            }, 1600);
+
+            introPlayer.setOnEndOfMedia(() -> {
+                WelcomeController.this.idVideoMediaView.setMediaPlayer(introLoopPlayer);
+                introLoopPlayer.setCycleCount(MediaPlayer.INDEFINITE);
+                introLoopPlayer.setAutoPlay(true);
+            });
+        }
 
     }
 
     @FXML
     private void switchButtonColor(MouseEvent event) {
         Button button = (Button) event.getSource();
-        if (button.getTextFill() == Color.BLACK) {
+        if (button.getTextFill() == Color.WHITE) {
             button.setTextFill(Color.valueOf("#aaaaaa"));
         } else {
-            button.setTextFill(Color.BLACK);
+            button.setTextFill(Color.WHITE);
         }
     }
 
     private void switchButtonsVisibility() {
-        this.idPlayBtn.setVisible(!this.idPlayBtn.isVisible());
-        this.idSettingsBtn.setVisible(!this.idSettingsBtn.isVisible());
-        this.idQuitBtn.setVisible(!this.idQuitBtn.isVisible());
+        this.idPaneBtn.setVisible(!this.idPaneBtn.isVisible());
+    }
+
+    public void switchVisibility(Node node) {
+        node.setVisible(!node.isVisible());
+    }
+
+    @FXML
+    private void closeCreditsAlert() {
+        this.switchVisibility(this.idCreditsPne);
+        this.idNewGameBtn.requestFocus();
+    }
+
+    @FXML
+    private void credits() {
+        this.switchVisibility(this.idCreditsPne);
     }
 
 }
