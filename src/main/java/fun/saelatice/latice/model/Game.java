@@ -9,14 +9,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Random;
 import java.util.Set;
 
 public class Game {
 
+    public static final int MAX_CYCLES = 10;
     private static String player1Name = "Joueur 2";
     private static String player2Name = "Joueur 1";
-    public static final int MAX_CYCLES = 10;
     private final Player player1 = new Player();
     private final Player player2 = new Player();
     private final Board board = new Board();
@@ -36,6 +35,22 @@ public class Game {
             }
         }
         return tiles;
+    }
+
+    public static void setPlayer1Name(String player1Name) {
+        Game.player1Name = player1Name;
+    }
+
+    public static void setPlayer2Name(String player2Name) {
+        Game.player2Name = player2Name;
+    }
+
+    public static String player1Name() {
+        return Game.player1Name;
+    }
+
+    public static String player2Name() {
+        return Game.player2Name;
     }
 
     public void divideTiles() {
@@ -118,21 +133,5 @@ public class Game {
 
     public boolean isOver() {
         return this.over;
-    }
-
-    public static void setPlayer1Name(String player1Name) {
-        Game.player1Name = player1Name;
-    }
-
-    public static void setPlayer2Name(String player2Name) {
-        Game.player2Name = player2Name;
-    }
-
-    public static String player1Name() {
-        return Game.player1Name;
-    }
-
-    public static String player2Name() {
-        return Game.player2Name;
     }
 }

@@ -170,7 +170,7 @@ public class BoardController {
     }
 
     public void updateCycles(Game game) {
-        this.idCycles.setText("Cycle " + (game.getCycles() + 1));
+        this.idCycles.setText("CYCLE " + (game.getCycles() + 1) + " / " + Game.MAX_CYCLES);
         this.idCycles.setVisible(true);
     }
 

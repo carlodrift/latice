@@ -1,6 +1,5 @@
 package fun.saelatice.latice.controller.board;
 
-import fun.saelatice.latice.model.Board;
 import fun.saelatice.latice.model.Game;
 import fun.saelatice.latice.model.Player;
 import fun.saelatice.latice.model.tile.TileColor;
