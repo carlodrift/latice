@@ -24,9 +24,7 @@ public record PlayTileController(DataFormat format, Board board, Position positi
             event.setDropCompleted(true);
             this.boardController.updateCurrentPlayer(this.game);
             this.boardController.fillBoard(this.board, this.game);
-            if (this.game.getCurrentPlayer().getPoints() >= Board.MOVE_PRICE) {
-                this.boardController.enableChangeRack();
-            } else {
+            if (this.game.getCurrentPlayer().getPoints() < Board.MOVE_PRICE) {
                 PassController passController = new PassController(this.boardController, this.game);
                 passController.handle(null);
             }

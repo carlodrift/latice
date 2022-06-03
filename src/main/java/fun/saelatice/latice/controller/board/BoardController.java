@@ -324,14 +324,6 @@ public class BoardController {
         node.setVisible(!node.isVisible());
     }
 
-    public void disableChangeRack() {
-        this.idChangeRack.setDisable(true);
-    }
-
-    public void enableChangeRack() {
-        this.idChangeRack.setDisable(false);
-    }
-
     public void switchPassBtnVisibility() {
         this.switchVisibility(this.idPassBtn);
     }

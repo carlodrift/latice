@@ -23,7 +23,7 @@
             <Font name="System Bold" size="20.0"/>
         </font>
     </Label>
-    <Button fx:id="idChangeRack" contentDisplay="CENTER" disable="true" ellipsisString="⟳" graphicTextGap="1.0"
+    <Button fx:id="idChangeRack" contentDisplay="CENTER" ellipsisString="⟳" graphicTextGap="1.0"
             layoutX="243.0" layoutY="344.0" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false"
             prefHeight="50.0" prefWidth="50.0"
             style="-fx-background-color: f3f3f3; -fx-background-radius: 10; -fx-border-color: black; -fx-border-radius: 10;"

@@ -14,7 +14,7 @@ public class Player {
     private boolean freeMove = true;
 
     public void changeRack(boolean removePoints) {
-        if (removePoints) {
+        if (removePoints && !this.freeMove) {
             this.removePoint(Board.MOVE_PRICE);
         }
         List<Tile> oldTiles = new ArrayList<>(this.rack);

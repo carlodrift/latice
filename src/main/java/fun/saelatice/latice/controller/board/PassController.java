@@ -12,7 +12,6 @@ public record PassController(BoardController boardController, Game game) impleme
 
     @Override
     public void handle(MouseEvent mouseEvent) {
-        this.boardController.disableChangeRack();
         this.game.checkOver();
         if (this.game.isOver()) {
             this.boardController.switchPassBtnVisibility();
@@ -37,10 +36,6 @@ public record PassController(BoardController boardController, Game game) impleme
         this.game.goNextPlayer();
         this.boardController.fillRack(this.game.getCurrentPlayer());
         this.boardController.updateCurrentPlayer(this.game);
-        this.boardController.disableChangeRack();
-        if (this.game.getCurrentPlayer().getPoints() >= Board.MOVE_PRICE) {
-            this.boardController.enableChangeRack();
-        }
     }
 
 
